@@ -29,27 +29,40 @@ dotnet publish FlyffUniverseLauncher/FlyffUniverseLauncher.csproj -c Release -r 
 Pushing a tag that starts with `v` (e.g. `v3.0.0`) automatically builds all four platforms with GitHub Actions and attaches the zipped builds to a GitHub release.
 
 ## Release 3.0
+
 ### New Features
-* Updated project `.NET` version from `.NET 8.0` to `.NET 10.0`
-* Removed the `TsadriuUtilities` dependency, the launcher now reads and writes the profiles file on its own.
-* The profiles are now stored in a readable `profiles.json` file (like the launcher settings).
-  * An existing `profiles.csv` (or the ancient `profiles.txt`) is converted automatically on start up and then deleted.
-* The launcher is now multiplatform! It runs on Windows, macOS and Linux.
+* The launcher is now **multiplatform**! It runs on Windows, macOS and Linux.
   * The user interface was moved from Windows Forms to [Avalonia UI](https://avaloniaui.net/).
   * The game is displayed through the webview engine of each platform (WebView2 on Windows, WKWebView on macOS, WebKitGTK on Linux), so the launcher stays small.
   * Every profile still keeps its own separate network data (cookies, cache, login), also on macOS and Linux.
-* The launcher data now lives in the standard application data folder (see *Where the launcher saves its data* above).
+* Updated project `.NET` version from `.NET 8.0` to `.NET 10.0`.
+* The launcher data now lives in the standard application data folder:
+  * **Windows**: `C:\Users\<name>\AppData\Local\Flyff Universe Launcher`
+  * **macOS / Linux**: `~/.local/share/Flyff Universe Launcher`
   * Data of older versions (stored at the root of the drive, e.g. `C:\Flyff Universe Launcher`) is moved over automatically on the first start, the old folder is deleted and a pop-up shows both locations.
-  * A new *Open data folder* button in the launcher opens that folder directly.
+  * A new *Open data folder* button in the launcher opens that folder directly, so it's always clear where the data is (deleting that folder removes every trace of the launcher).
+* The profiles are now stored in a readable `profiles.json` file (like the launcher settings).
+  * An existing `profiles.csv` (or the ancient `profiles.txt`) is converted automatically on start up and then deleted.
+* Removed the `TsadriuUtilities` dependency, the launcher now reads and writes the profiles file on its own.
+
 ### Quality of Life
-* Pressing **ENTER** in the profile box launches the selected profile right away.
+* Pressing **ENTER** in the profile box launches the selected profile right away, and pressing **ENTER** in the *New profile* window saves the profile.
 * If a profile is already running, pressing *Play* again brings its window to the front instead of launching it twice.
+* A profile whose game window is still open can no longer be deleted (its data is in use by the game), the launcher explains why instead.
+* Only one launcher can run at a time, so two instances can no longer write over each other's files.
+* The *Last login* of a profile is now updated every time it is launched.
 * The width and height fields are now validated in the *Manage Profiles* tab too, and the input boxes show hints about what is expected.
+* The *Yes*/*No* buttons of the dialog windows are now localized as well.
+* The launcher always uses the light theme, so it stays readable when the operating system is set to dark mode.
+
 ### Bugfixes
 * The last background image of the launcher can now actually appear (it was never picked before).
-* Converting profiles of very old versions (`profiles.txt`) no longer misaligns the profile table when there is more than one profile.
+* Creating a profile with a name that already exists now shows an error instead of creating a duplicate.
+* Creating a profile whose name only consists of special characters (e.g. `!!!`) no longer creates a profile with an empty name.
 * `Delete all profiles` now updates the profile file even when no network data folders exist.
 * Deleting a profile whose name contains special characters now also deletes its network data folder.
+* Pressing *Play* right after typing a profile name could launch the previously selected profile instead of the typed one.
+* Converting profiles of very old versions (`profiles.txt`) no longer misaligns the profile data when there is more than one profile.
 * Error logs are now written correctly even when the log folder does not exist yet.
 
 ## Release 2.0
