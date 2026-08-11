@@ -116,6 +116,10 @@ namespace FlyffUniverseLauncher
                 return;
             }
 
+            // Remember when the profile was last played.
+            profileToLaunch.LastLogin = DateTime.Now;
+            SaveProfilesFile();
+
             var flyff = new FlyffUniverseWindow(profileToLaunch);
             flyff.LaunchGame();
         }
@@ -313,6 +317,14 @@ namespace FlyffUniverseLauncher
                 return;
             }
 
+            // A profile that is currently running cannot be deleted, its network data is locked by the game.
+            if (FlyffUniverseWindow.GetOpenWindow(manageProfileSelectedUser) != null)
+            {
+                await MessageBox.Show(Properties.Resources.FUL_manageProfile_profileIsRunning.Replace("$USERNAME$", manageProfileSelectedUser),
+                    Properties.Resources.FUL_manageProfile_profileIsRunning_caption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             var message = Properties.Resources.FUL_manageProfile_deleteProfileButton_confirmation.Replace("$USERNAME$", manageProfileSelectedUser);
             var caption = Properties.Resources.FUL_manageProfile_deleteProfileButton_confirmation_caption.Replace("$USERNAME$", manageProfileSelectedUser);
 
@@ -335,6 +347,16 @@ namespace FlyffUniverseLauncher
         {
             if (_profiles.Count == 0)
             {
+                return;
+            }
+
+            // No profile can be deleted while one of them is still running, its network data is locked by the game.
+            var runningProfile = _profiles.Find(x => FlyffUniverseWindow.GetOpenWindow(x.Name) != null);
+
+            if (runningProfile != null)
+            {
+                await MessageBox.Show(Properties.Resources.FUL_manageProfile_profileIsRunning.Replace("$USERNAME$", runningProfile.Name),
+                    Properties.Resources.FUL_manageProfile_profileIsRunning_caption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 

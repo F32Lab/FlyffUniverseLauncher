@@ -4,6 +4,10 @@
     <OutputType>WinExe</OutputType>
     <!-- Plain net10.0 (no -windows suffix) so the launcher can also run on macOS and Linux -->
     <TargetFramework>net10.0</TargetFramework>
+    <!-- The version shown in the launcher windows is derived from this value (see Program.CurrentVersion) -->
+    <Version>3.0.0</Version>
+    <Authors>F32Lab</Authors>
+    <Product>Flyff Universe Launcher</Product>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <ApplicationIcon>Assets\Icons\program.ico</ApplicationIcon>

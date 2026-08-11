@@ -19,6 +19,15 @@ The launcher stores everything (profiles, settings, browser data) in one folder,
 
 Deleting that folder removes every trace of the launcher from the computer.
 
+##  Building from source
+The launcher needs the [.NET 10 SDK](https://dotnet.microsoft.com/download). A ready-to-run build for a specific platform is created with:
+```
+dotnet publish FlyffUniverseLauncher/FlyffUniverseLauncher.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true
+```
+(replace `win-x64` with `linux-x64`, `osx-x64` or `osx-arm64` for the other platforms)
+
+Pushing a tag that starts with `v` (e.g. `v3.0.0`) automatically builds all four platforms with GitHub Actions and attaches the zipped builds to a GitHub release.
+
 ## Release 3.0
 ### New Features
 * Updated project `.NET` version from `.NET 8.0` to `.NET 10.0`

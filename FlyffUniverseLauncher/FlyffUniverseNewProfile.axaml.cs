@@ -56,9 +56,25 @@ public sealed partial class FlyffUniverseNewProfile : Window
 
         // The name is stored in lower case, so the profile folders stay consistent
         // also on file systems that are case sensitive (like on Linux).
+        var newProfileName = Regex.Replace(newProfileNameTextBox.Text.ToLower(), @"[^\w\d]", string.Empty);
+
+        // A name that only consists of special characters would end up empty after the clean up.
+        if (string.IsNullOrEmpty(newProfileName))
+        {
+            await MessageBox.Show(Properties.Resources.FULNP_saveButton_invalidUsername, Properties.Resources.FULNP_saveButton_invalidUsername_caption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            return;
+        }
+
+        // The same profile must not be created twice.
+        if (ManageProfileHelpers.DoesProfileToOverrideExist(newProfileName))
+        {
+            await MessageBox.Show(Properties.Resources.FUL_manageProfileSaveButton_profileAlreadyExists, Properties.Resources.FUL_manageProfileSaveButton_profileAlreadyExists_caption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            return;
+        }
+
         Profile profile = new Profile()
         {
-            Name = Regex.Replace(newProfileNameTextBox.Text.ToLower(), @"[^\w\d]", string.Empty),
+            Name = newProfileName,
             Width = int.Parse(newProfilePrefWidthTextBox.Text),
             Height = int.Parse(newProfilePrefHeightTextBox.Text),
             IsFullScreen = newProfileFullscreenCheckBox.IsChecked == true,
@@ -69,6 +85,17 @@ public sealed partial class FlyffUniverseNewProfile : Window
         Program.launcher.ReloadComboBoxes();
         await MessageBox.Show(Properties.Resources.FULNP_saveButton_success, Properties.Resources.FULNP_saveButton_success_caption, MessageBoxButtons.OK, MessageBoxIcon.Information);
         Close();
+    }
+
+    /// <summary>
+    /// Pressing ENTER anywhere in the window saves the new profile right away.
+    /// </summary>
+    private void FlyffUniverseNewProfile_KeyDown(object? sender, Avalonia.Input.KeyEventArgs e)
+    {
+        if (e.Key == Avalonia.Input.Key.Enter)
+        {
+            newProfileSaveButton_Click(sender, new RoutedEventArgs());
+        }
     }
 
     private void newProfileAdaptScreenSizeButton_Click(object? sender, RoutedEventArgs e)

@@ -193,4 +193,16 @@ La vecchia cartella è stata eliminata.</value>
   <data name="FUL_selectUserInput_watermark" xml:space="preserve">
     <value>Seleziona o scrivi un profilo</value>
   </data>
+  <data name="FUL_manageProfile_profileIsRunning" xml:space="preserve">
+    <value>Il profilo '$USERNAME$' è ancora in esecuzione. Chiudi la sua finestra di gioco prima di eliminarlo.</value>
+  </data>
+  <data name="FUL_manageProfile_profileIsRunning_caption" xml:space="preserve">
+    <value>Profilo in esecuzione</value>
+  </data>
+  <data name="MB_yes" xml:space="preserve">
+    <value>Sì</value>
+  </data>
+  <data name="MB_no" xml:space="preserve">
+    <value>No</value>
+  </data>
 </root>

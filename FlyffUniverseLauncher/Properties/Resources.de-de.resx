@@ -194,4 +194,16 @@ Der alte Ordner wurde gelöscht.</value>
   <data name="FUL_selectUserInput_watermark" xml:space="preserve">
     <value>Profil auswählen oder eingeben</value>
   </data>
+  <data name="FUL_manageProfile_profileIsRunning" xml:space="preserve">
+    <value>Das Profil '$USERNAME$' läuft noch. Schließe zuerst sein Spielfenster, bevor du es löschst.</value>
+  </data>
+  <data name="FUL_manageProfile_profileIsRunning_caption" xml:space="preserve">
+    <value>Profil läuft</value>
+  </data>
+  <data name="MB_yes" xml:space="preserve">
+    <value>Ja</value>
+  </data>
+  <data name="MB_no" xml:space="preserve">
+    <value>Nein</value>
+  </data>
 </root>

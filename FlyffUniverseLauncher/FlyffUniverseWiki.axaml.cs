@@ -9,7 +9,6 @@ namespace FlyffUniverseLauncher
     {
 
         public static string currentPage = string.Empty;
-        private bool settingUpUri = false;
         private string networkDataDirectory = string.Empty;
 
         public FlyffUniverseWiki(string link)
@@ -41,11 +40,9 @@ namespace FlyffUniverseLauncher
         /// </summary>
         private void SetUpUri()
         {
-            settingUpUri = true;
             var name = "FlyffWiki".ToLower();
             networkDataDirectory = Path.Combine(FlyffUniverseConstants.Directory.ProgramNetworkStorage, name);
             webView2.Source = new Uri(currentPage);
-            settingUpUri = false;
         }
 
         /// <summary>
@@ -91,7 +88,7 @@ namespace FlyffUniverseLauncher
         /// </summary>
         private void webView2_WebMessageReceived(object? sender, WebMessageReceivedEventArgs e)
         {
-            if (e.Body == "Escape" && !settingUpUri)
+            if (e.Body == "Escape")
             {
                 Close();
             }
@@ -99,7 +96,7 @@ namespace FlyffUniverseLauncher
 
         private void FlyffUniverseWiki_KeyDown(object? sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Escape && !settingUpUri)
+            if (e.Key == Key.Escape)
             {
                 Close();
             }

@@ -103,9 +103,9 @@ public static class MessageBox
         }
         else
         {
-            var yesButton = new Button { Content = "Yes", MinWidth = 80, IsDefault = true };
+            var yesButton = new Button { Content = Properties.Resources.MB_yes, MinWidth = 80, IsDefault = true };
             yesButton.Click += (_, _) => { dialogResult = DialogResult.Yes; dialog.Close(); };
-            var noButton = new Button { Content = "No", MinWidth = 80, IsCancel = true };
+            var noButton = new Button { Content = Properties.Resources.MB_no, MinWidth = 80, IsCancel = true };
             noButton.Click += (_, _) => { dialogResult = DialogResult.No; dialog.Close(); };
             buttonRow.Children.Add(yesButton);
             buttonRow.Children.Add(noButton);

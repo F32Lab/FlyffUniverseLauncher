@@ -571,5 +571,41 @@ namespace FlyffUniverseLauncher.Properties {
                 return ResourceManager.GetString("FUL_selectUserInput_watermark", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The profile &apos;$USERNAME$&apos; is still running. Close its game window [rest of string was truncated].
+        /// </summary>
+        internal static string FUL_manageProfile_profileIsRunning {
+            get {
+                return ResourceManager.GetString("FUL_manageProfile_profileIsRunning", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Profile is running.
+        /// </summary>
+        internal static string FUL_manageProfile_profileIsRunning_caption {
+            get {
+                return ResourceManager.GetString("FUL_manageProfile_profileIsRunning_caption", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Yes.
+        /// </summary>
+        internal static string MB_yes {
+            get {
+                return ResourceManager.GetString("MB_yes", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to No.
+        /// </summary>
+        internal static string MB_no {
+            get {
+                return ResourceManager.GetString("MB_no", resourceCulture);
+            }
+        }
     }
 }

@@ -71,7 +71,7 @@
                             <TextBox x:Name="manageProfileWidthTextBox" PlaceholderText="1920" />
                         </StackPanel>
                         <StackPanel Grid.Column="2" Spacing="4">
-                            <TextBlock x:Name="manageProfiles_preferredHeightLabel" Text="Preffered height" />
+                            <TextBlock x:Name="manageProfiles_preferredHeightLabel" Text="Preferred height" />
                             <TextBox x:Name="manageProfileHeightTextBox" PlaceholderText="1080" />
                         </StackPanel>
                     </Grid>

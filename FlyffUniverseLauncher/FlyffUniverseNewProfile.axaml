@@ -5,6 +5,7 @@
         Width="446" Height="280"
         CanResize="False"
         WindowStartupLocation="Manual"
+        KeyDown="FlyffUniverseNewProfile_KeyDown"
         Icon="/Assets/Icons/program.ico">
 
     <StackPanel Margin="24,16" Spacing="6">
@@ -18,7 +19,7 @@
                 <TextBox x:Name="newProfilePrefWidthTextBox" PlaceholderText="1920" />
             </StackPanel>
             <StackPanel Grid.Column="2" Spacing="4">
-                <TextBlock x:Name="newProfilePrefHeightLabel" Text="Preffered height" />
+                <TextBlock x:Name="newProfilePrefHeightLabel" Text="Preferred height" />
                 <TextBox x:Name="newProfilePrefHeightTextBox" PlaceholderText="1080" />
             </StackPanel>
         </Grid>
