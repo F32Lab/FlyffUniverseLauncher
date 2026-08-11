@@ -38,6 +38,15 @@ namespace FlyffUniverseLauncher
             ManageProfileHelpers.Setup(_profilesTable);
             LoadLauncherProperties();
 
+            // The editable ComboBox has no TextChanged event, so the Text property is observed instead.
+            selectUserInput.PropertyChanged += (sender, e) =>
+            {
+                if (e.Property == ComboBox.TextProperty)
+                {
+                    selectUserInput_TextChanged();
+                }
+            };
+
             // The migration popup can only be shown once the window is open.
             Opened += ShowMigrationInfo;
         }
@@ -153,7 +162,7 @@ namespace FlyffUniverseLauncher
             _selectedProfile = profileToSearch;
         }
 
-        private async void selectUserInput_TextChanged(object? sender, TextChangedEventArgs e)
+        private async void selectUserInput_TextChanged()
         {
             if (GetProfileIndex(selectUserInput.Text ?? string.Empty) == -1)
             {
@@ -580,7 +589,7 @@ namespace FlyffUniverseLauncher
             profileSettingsTab.Header = Properties.Resources.FUL_profileSettingsLabel;
             manageProfilesTab.Header = Properties.Resources.FUL_manageProfilesLabel;
             selectUserLabel.Text = Properties.Resources.FUL_selectUserLabel;
-            selectUserInput.Watermark = Properties.Resources.FUL_selectUserInput_watermark;
+            selectUserInput.PlaceholderText = Properties.Resources.FUL_selectUserInput_watermark;
             playButton.Content = Properties.Resources.FUL_playButton;
             createNewProfileButton.Content = Properties.Resources.FUL_createNewProfileButton;
             ful_language_label.Text = Properties.Resources.FUL_language_label;
@@ -590,7 +599,7 @@ namespace FlyffUniverseLauncher
 
             // Manage Profiles tab
             selectProfileToModifyLabel.Text = Properties.Resources.FUL_manageProfiles_selectProfileToModifyLabel;
-            manageProfileComboBox.Watermark = Properties.Resources.FUL_selectUserInput_watermark;
+            manageProfileComboBox.PlaceholderText = Properties.Resources.FUL_selectUserInput_watermark;
             manageProfiles_profileNameLabel.Text = Properties.Resources.FUL_manageProfiles_profileNameLabel;
             manageProfiles_preferredWidthLabel.Text = Properties.Resources.FUL_manageProfiles_preferredWidthLabel;
             manageProfiles_preferredHeightLabel.Text = Properties.Resources.FUL_manageProfiles_preferredHeightLabel;

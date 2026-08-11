@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
       Microsoft ResX Schema 
@@ -222,7 +222,7 @@ If you're not sure, press the "Adapt to screen size" button</value>
         <value>Launcher language</value>
     </data>
   <data name="FUL_credit_label" xml:space="preserve">
-        <value>Made by Tsadriu
+        <value>Made by F32Lab
 Powered by Avalonia UI</value>
     </data>
   <data name="FUL_manageProfiles_selectProfileToModifyLabel" xml:space="preserve">

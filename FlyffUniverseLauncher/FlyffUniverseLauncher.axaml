@@ -36,15 +36,15 @@
                         <Button x:Name="openDataFolderButton" Content="Open data folder" Margin="0,8,0,0"
                                 Click="openDataFolderButton_Click" />
                         <TextBlock x:Name="ful_credit_label" FontStyle="Italic" FontSize="12" Margin="0,12,0,0"
-                                   Text="Made by Tsadriu" />
+                                   Text="Made by F32Lab" />
                     </StackPanel>
 
                     <StackPanel Spacing="8">
                         <TextBlock x:Name="selectUserLabel" Text="Select a profile or type a new one:" />
-                        <AutoCompleteBox x:Name="selectUserInput" FilterMode="Contains" MinimumPrefixLength="0"
-                                         SelectionChanged="selectUserInput_SelectedIndexChanged"
-                                         TextChanged="selectUserInput_TextChanged"
-                                         KeyDown="selectUserInput_KeyDown" />
+                        <!-- An editable ComboBox, so profiles can be picked from the drop-down arrow or typed by hand. -->
+                        <ComboBox x:Name="selectUserInput" IsEditable="True" HorizontalAlignment="Stretch"
+                                  SelectionChanged="selectUserInput_SelectedIndexChanged"
+                                  KeyDown="selectUserInput_KeyDown" />
                         <StackPanel Orientation="Horizontal" Spacing="8">
                             <Button x:Name="playButton" Content="Launch profile" MinWidth="130"
                                     Click="playButton_Click" />
@@ -58,8 +58,8 @@
             <TabItem x:Name="manageProfilesTab" Header="Manage Profiles">
                 <StackPanel Margin="8" Spacing="6">
                     <TextBlock x:Name="selectProfileToModifyLabel" Text="Select the profile to modify:" />
-                    <AutoCompleteBox x:Name="manageProfileComboBox" FilterMode="Contains" MinimumPrefixLength="0"
-                                     SelectionChanged="manageProfileComboBox_SelectedIndexChanged" />
+                    <ComboBox x:Name="manageProfileComboBox" IsEditable="True" HorizontalAlignment="Stretch"
+                              SelectionChanged="manageProfileComboBox_SelectedIndexChanged" />
 
                     <TextBlock x:Name="manageProfiles_profileNameLabel" Text="Profile name" Margin="0,6,0,0" />
                     <TextBox x:Name="manageProfileNameTextBox" />
