@@ -28,6 +28,10 @@ dotnet publish FlyffUniverseLauncher/FlyffUniverseLauncher.csproj -c Release -r 
 
 Pushing a tag that starts with `v` (e.g. `v3.0.0`) automatically builds all four platforms with GitHub Actions and attaches the zipped builds to a GitHub release.
 
+## Release 3.0.1
+* Fixed an issue where the game window (and the other windows the launcher opens) no longer started at the center of the selected screen.
+  * A window that is bigger than the screen is placed at the top left corner instead, so its title bar always stays reachable.
+
 ## Release 3.0
 
 ### New Features

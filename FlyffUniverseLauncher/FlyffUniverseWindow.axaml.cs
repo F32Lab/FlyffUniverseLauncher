@@ -96,7 +96,7 @@ namespace FlyffUniverseLauncher
             Width = _currentProfile.Width;
             Height = _currentProfile.Height;
             Title += $@"{Program.CurrentVersion} - {profileName}";
-            Position = Program.launcher.Position;
+            WindowHelper.CenterOnLauncherScreen(this);
 
             if (_currentProfile.IsFullScreen)
             {

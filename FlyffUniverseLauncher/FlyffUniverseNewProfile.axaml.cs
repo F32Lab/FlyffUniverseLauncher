@@ -2,6 +2,7 @@ using System.Text.RegularExpressions;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using FlyffUniverseLauncher.Classes;
+using FlyffUniverseLauncher.Helpers;
 
 namespace FlyffUniverseLauncher;
 
@@ -11,7 +12,7 @@ public sealed partial class FlyffUniverseNewProfile : Window
     {
         InitializeComponent();
         Title = "Flyff Universe Launcher - " + Program.CurrentVersion + " - New profile";
-        Position = Program.launcher.Position;
+        WindowHelper.CenterOnLauncherScreen(this);
         Program.launcher.Hide();
         UpdateAllLabelsLanguage();
         Show();

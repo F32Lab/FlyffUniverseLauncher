@@ -31,7 +31,7 @@ namespace FlyffUniverseLauncher
             Width = Math.Min(1280, screenWidth);
             Height = Math.Min(720, screenHeight);
             Title += $"{Program.CurrentVersion} - Helper";
-            Position = Program.launcher.Position;
+            WindowHelper.CenterOnLauncherScreen(this);
         }
 
         /// <summary>
