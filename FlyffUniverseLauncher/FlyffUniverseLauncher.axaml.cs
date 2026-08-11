@@ -15,15 +15,11 @@ namespace FlyffUniverseLauncher
 {
     public sealed partial class FlyffUniverseLauncher : Window
     {
-        private static CsvTable _profilesTable = new CsvTable();
-        private const string ProfileColumn = "Profile";
-        private const string LastLoginColumn = "Last Login";
-        private const string PreferredWidthColumn = "Preferred Width";
-        private const string PreferredHeightColumn = "Preferred Height";
-        private const string IsFullScreenColumn = "Is Full Screen";
+        // The profiles.json file is written human readable, so the user can inspect it themselves.
+        private static readonly JsonSerializerOptions ProfilesJsonOptions = new() { WriteIndented = true };
 
         private static Profile _selectedProfile = null!;
-        private static List<Profile> _profiles = [];
+        private static readonly List<Profile> _profiles = [];
 
         public FlyffUniverseLauncher()
         {
@@ -31,7 +27,7 @@ namespace FlyffUniverseLauncher
             PickRandomImage();
             AssignUsersToComboBox();
             Title += Program.CurrentVersion;
-            ManageProfileHelpers.Setup(_profilesTable);
+            ManageProfileHelpers.Setup(_profiles);
             LoadLauncherProperties();
 
             // The editable ComboBox has no TextChanged event, so the Text property is observed instead.
@@ -67,14 +63,17 @@ namespace FlyffUniverseLauncher
 
         public static void SaveProfile(Profile profile)
         {
-            _profilesTable[ProfileColumn].AddRow(profile.Name);
-            _profilesTable[LastLoginColumn].AddRow($"{DateTime.Now:dd/MM/yyyy HH:mm:ss}");
-            _profilesTable[PreferredWidthColumn].AddRow(profile.Width.ToString());
-            _profilesTable[PreferredHeightColumn].AddRow(profile.Height.ToString());
-            _profilesTable[IsFullScreenColumn].AddRow(profile.IsFullScreen ? "1" : "0");
-            File.WriteAllLines(FlyffUniverseConstants.Directory.ProfilesFile, _profilesTable.ToList());
-
+            profile.LastLogin = DateTime.Now;
             _profiles.Add(profile);
+            SaveProfilesFile();
+        }
+
+        /// <summary>
+        /// Writes all the profiles to the profiles.json file.
+        /// </summary>
+        private static void SaveProfilesFile()
+        {
+            File.WriteAllText(FlyffUniverseConstants.Directory.ProfilesFile, JsonSerializer.Serialize(_profiles, ProfilesJsonOptions));
         }
 
         public void SetCurrentProfile(Profile profile)
@@ -261,20 +260,13 @@ namespace FlyffUniverseLauncher
                 }
             }
 
-            _profilesTable[ProfileColumn].RowList[userIndex] = newProfileName;
-            _profilesTable[PreferredWidthColumn].RowList[userIndex] = manageProfileWidthTextBox.Text;
-            _profilesTable[PreferredHeightColumn].RowList[userIndex] = manageProfileHeightTextBox.Text;
-            _profilesTable[IsFullScreenColumn].RowList[userIndex] = manageProfileFullscreenCheckBox.IsChecked == true ? "1" : "0";
+            var newProfile = _profiles[userIndex];
+            newProfile.Name = newProfileName;
+            newProfile.Width = int.Parse(manageProfileWidthTextBox.Text);
+            newProfile.Height = int.Parse(manageProfileHeightTextBox.Text);
+            newProfile.IsFullScreen = manageProfileFullscreenCheckBox.IsChecked == true;
 
-            File.WriteAllLines(FlyffUniverseConstants.Directory.ProfilesFile, _profilesTable.ToList());
-
-            var newProfile = new Profile()
-            {
-                Name = newProfileName,
-                Width = int.Parse(manageProfileWidthTextBox.Text),
-                Height = int.Parse(manageProfileHeightTextBox.Text),
-                IsFullScreen = manageProfileFullscreenCheckBox.IsChecked == true,
-            };
+            SaveProfilesFile();
 
             AssignUsersToComboBox();
             _selectedProfile = newProfile;
@@ -298,10 +290,11 @@ namespace FlyffUniverseLauncher
                 return;
             }
 
-            manageProfileNameTextBox.Text = _profilesTable[ProfileColumn].RowList[userIndex]?.ToLower();
-            manageProfileWidthTextBox.Text = _profilesTable[PreferredWidthColumn].RowList[userIndex];
-            manageProfileHeightTextBox.Text = _profilesTable[PreferredHeightColumn].RowList[userIndex];
-            manageProfileFullscreenCheckBox.IsChecked = _profilesTable[IsFullScreenColumn].RowList[userIndex] == "1";
+            var profile = _profiles[userIndex];
+            manageProfileNameTextBox.Text = profile.Name.ToLower();
+            manageProfileWidthTextBox.Text = profile.Width.ToString();
+            manageProfileHeightTextBox.Text = profile.Height.ToString();
+            manageProfileFullscreenCheckBox.IsChecked = profile.IsFullScreen;
         }
 
         private async void manageProfileDeleteButton_Click(object? sender, RoutedEventArgs e)
@@ -330,12 +323,8 @@ namespace FlyffUniverseLauncher
                 return;
             }
 
-            for (int i = 0; i < _profilesTable.ColumnList.Count; i++)
-            {
-                _profilesTable[i].RowList.RemoveAt(userIndex);
-            }
-
-            File.WriteAllLines(FlyffUniverseConstants.Directory.ProfilesFile, _profilesTable.ToList());
+            _profiles.RemoveAt(userIndex);
+            SaveProfilesFile();
 
             DeleteNetworkData(manageProfileSelectedUser);
             ResetManageProfileFields();
@@ -344,7 +333,7 @@ namespace FlyffUniverseLauncher
 
         private async void manageProfileDeleteAllButton_Click(object? sender, RoutedEventArgs e)
         {
-            if (_profilesTable[ProfileColumn].ContainsEmptyRows)
+            if (_profiles.Count == 0)
             {
                 return;
             }
@@ -359,10 +348,7 @@ namespace FlyffUniverseLauncher
             }
 
             // Delete all profiles from the local profile file
-            for (int i = 0; i < _profilesTable.ColumnList.Count; i++)
-            {
-                _profilesTable[i].RowList.Clear();
-            }
+            _profiles.Clear();
 
             // Delete all folders (if there is any)
             if (Directory.Exists(FlyffUniverseConstants.Directory.ProgramNetworkStorage))
@@ -376,7 +362,7 @@ namespace FlyffUniverseLauncher
                 }
             }
 
-            File.WriteAllLines(FlyffUniverseConstants.Directory.ProfilesFile, _profilesTable.ToList());
+            SaveProfilesFile();
             ResetManageProfileFields();
             AssignUsersToComboBox();
             launcherTabControl.SelectedIndex = 0;
@@ -436,18 +422,17 @@ namespace FlyffUniverseLauncher
 
         private int GetProfileIndex(string profile)
         {
-            return _profilesTable[ProfileColumn].RowList.FindIndex(x => x != null && x.Equals(profile, StringComparison.OrdinalIgnoreCase));
+            return _profiles.FindIndex(x => x.Name.Equals(profile, StringComparison.OrdinalIgnoreCase));
         }
 
         /// <summary>
-        /// Initializes and assigns user profiles to the ComboBox controls.
-        /// If the old profiles file exists, it converts the data to a new format, deletes the old file, and creates a new profiles file.
-        /// If no profile data is found, it creates a new profiles table with default columns.
+        /// Loads the profiles and assigns them to the ComboBox controls.
+        /// When a profiles file of an older version is found (profiles.csv, or the even older profiles.txt),
+        /// it is converted once to the new profiles.json format and the old file is deleted.
         /// </summary>
         /// <remarks>
-        /// The method ensures that the profiles directory exists and checks if there is any setup data available in the old or new profiles files.
-        /// If old data is present in the old profiles file, it is converted and saved in the new profiles file format.
-        /// After setting up the profiles table, the <see cref="ReloadComboBoxes"/> method is called to reload the ComboBoxes with the updated profiles.
+        /// The method ensures that the profiles directory exists before looking for the profile files.
+        /// After loading the profiles, the <see cref="ReloadComboBoxes"/> method is called to reload the ComboBoxes with the updated profiles.
         /// </remarks>
         private void AssignUsersToComboBox()
         {
@@ -457,56 +442,66 @@ namespace FlyffUniverseLauncher
             }
 
             _profiles.Clear();
-            bool hasSetupData = false;
-
-            // If the old profiles file exists, replace it with the new format
-            if (File.Exists(FlyffUniverseConstants.Directory.OldProfilesFile))
-            {
-                _profilesTable = new CsvTable(File.ReadAllLines(FlyffUniverseConstants.Directory.OldProfilesFile), ";");
-                _profilesTable["Width"].Name = PreferredWidthColumn;
-                _profilesTable["Height"].Name = PreferredHeightColumn;
-                _profilesTable.AddColumn(IsFullScreenColumn);
-
-                // Every existing profile gets its own row in the new column, otherwise the table would be misaligned.
-                for (int i = 0; i < _profilesTable[ProfileColumn].RowCount; i++)
-                {
-                    _profilesTable[IsFullScreenColumn].AddRow("0");
-                }
-                File.Delete(FlyffUniverseConstants.Directory.OldProfilesFile);
-                File.WriteAllLines(FlyffUniverseConstants.Directory.ProfilesFile, _profilesTable.ToList());
-                hasSetupData = true;
-            }
 
             if (File.Exists(FlyffUniverseConstants.Directory.ProfilesFile))
             {
-                _profilesTable = new CsvTable(File.ReadAllLines(FlyffUniverseConstants.Directory.ProfilesFile), ";");
-                hasSetupData = true;
+                try
+                {
+                    _profiles.AddRange(JsonSerializer.Deserialize<List<Profile>>(File.ReadAllText(FlyffUniverseConstants.Directory.ProfilesFile)) ?? []);
+                }
+                catch (Exception exception)
+                {
+                    // A corrupt profiles file is not fatal: the launcher starts without profiles
+                    // and the reason is written to the log folder.
+                    Directory.CreateDirectory(FlyffUniverseConstants.Directory.LogStorage);
+                    string fileName = $"{DateTime.Now:yyyy_MM_dd_HH_mm_ss}_profiles_error.log";
+                    File.WriteAllText(Path.Combine(FlyffUniverseConstants.Directory.LogStorage, fileName), "Could not deserialize the JSON profiles! Exception: " + exception);
+                }
             }
-
-            if (!hasSetupData)
+            else if (File.Exists(FlyffUniverseConstants.Directory.OldCsvProfilesFile))
             {
-                _profilesTable = new CsvTable(new CsvColumn(ProfileColumn), new CsvColumn(LastLoginColumn),
-                    new CsvColumn(PreferredWidthColumn), new CsvColumn(PreferredHeightColumn),
-                    new CsvColumn(IsFullScreenColumn));
-
-                return;
+                // The profiles.csv of the previous versions of the launcher.
+                ConvertOldProfilesFile(FlyffUniverseConstants.Directory.OldCsvProfilesFile, "Preferred Width", "Preferred Height");
+            }
+            else if (File.Exists(FlyffUniverseConstants.Directory.OldProfilesFile))
+            {
+                // The profiles.txt of the very first versions of the launcher, which used different column names.
+                ConvertOldProfilesFile(FlyffUniverseConstants.Directory.OldProfilesFile, "Width", "Height");
             }
 
-            for (int i = 0; i < _profilesTable[ProfileColumn].RowCount; i++)
+            ReloadComboBoxes();
+        }
+
+        /// <summary>
+        /// Converts a csv based profiles file of an older launcher version to the new profiles.json,
+        /// then deletes the old file.
+        /// </summary>
+        /// <param name="oldFile">The path of the old profiles file.</param>
+        /// <param name="widthColumn">The name of the width column inside the old file.</param>
+        /// <param name="heightColumn">The name of the height column inside the old file.</param>
+        private static void ConvertOldProfilesFile(string oldFile, string widthColumn, string heightColumn)
+        {
+            var profilesTable = new CsvTable(File.ReadAllLines(oldFile), ";");
+
+            // The fullscreen column only exists in the newer csv files.
+            var hasFullScreenColumn = profilesTable.ColumnList.Any(x => x.Name == "Is Full Screen");
+
+            for (int i = 0; i < profilesTable["Profile"].RowCount; i++)
             {
                 var profile = new Profile
                 {
-                    Name = _profilesTable[ProfileColumn].RowList[i]!,
-                    LastLogin = ParseLastLogin(_profilesTable[LastLoginColumn].RowList[i]),
-                    Width = ParseNumber(_profilesTable[PreferredWidthColumn].RowList[i]),
-                    Height = ParseNumber(_profilesTable[PreferredHeightColumn].RowList[i]),
-                    IsFullScreen = _profilesTable[IsFullScreenColumn].RowList[i] == "1",
+                    Name = profilesTable["Profile"].RowList[i]!,
+                    LastLogin = ParseLastLogin(profilesTable["Last Login"].RowList[i]),
+                    Width = ParseNumber(profilesTable[widthColumn].RowList[i]),
+                    Height = ParseNumber(profilesTable[heightColumn].RowList[i]),
+                    IsFullScreen = hasFullScreenColumn && profilesTable["Is Full Screen"].RowList[i] == "1",
                 };
 
                 _profiles.Add(profile);
             }
 
-            ReloadComboBoxes();
+            File.Delete(oldFile);
+            SaveProfilesFile();
         }
 
         /// <summary>
@@ -536,17 +531,7 @@ namespace FlyffUniverseLauncher
         /// </summary>
         public void ReloadComboBoxes()
         {
-            var profileNames = new List<string>();
-
-            foreach (string? profile in _profilesTable[ProfileColumn].RowList.Where(profile => !string.IsNullOrEmpty(profile)))
-            {
-                if (profile == null)
-                {
-                    continue;
-                }
-
-                profileNames.Add(profile);
-            }
+            var profileNames = _profiles.Select(x => x.Name).Where(x => !string.IsNullOrEmpty(x)).ToList();
 
             selectUserInput.ItemsSource = profileNames;
             manageProfileComboBox.ItemsSource = profileNames;

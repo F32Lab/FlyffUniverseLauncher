@@ -1,4 +1,4 @@
-﻿using FlyffUniverseLauncher.Classes.Csv;
+﻿using FlyffUniverseLauncher.Classes;
 
 namespace FlyffUniverseLauncher;
 
@@ -7,12 +7,11 @@ namespace FlyffUniverseLauncher;
 /// </summary>
 public static class ManageProfileHelpers
 {
-    private const string ProfileColumn = "Profile";
-    private static CsvTable? _profilesTable;
+    private static List<Profile>? _profiles;
 
-    public static void Setup(CsvTable profilesTable)
+    public static void Setup(List<Profile> profiles)
     {
-        _profilesTable = profilesTable;
+        _profiles = profiles;
     }
 
     /// <summary>
@@ -41,16 +40,16 @@ public static class ManageProfileHelpers
     public static bool AreProfileNamesEqual(string oldProfileName, string newProfileName) => oldProfileName.Equals(newProfileName, StringComparison.OrdinalIgnoreCase);
 
     /// <summary>
-    /// Retrieves the index of the specified profile name from the profiles table.
+    /// Retrieves the index of the specified profile name from the profiles list.
     /// </summary>
-    /// <param name="profile">The profile name to locate within the profiles table.</param>
+    /// <param name="profile">The profile name to locate within the profiles list.</param>
     /// <returns>
-    /// The index of the specified profile name in the profiles table if found; otherwise, <c>-1</c>.
+    /// The index of the specified profile name in the profiles list if found; otherwise, <c>-1</c>.
     /// </returns>
     private static int GetProfileIndex(string profile)
     {
-        ArgumentNullException.ThrowIfNull(_profilesTable);
-        
-        return _profilesTable[ProfileColumn].RowList.FindIndex(x => x != null && x.Equals(profile, StringComparison.OrdinalIgnoreCase));
+        ArgumentNullException.ThrowIfNull(_profiles);
+
+        return _profiles.FindIndex(x => x.Name.Equals(profile, StringComparison.OrdinalIgnoreCase));
     }
 }

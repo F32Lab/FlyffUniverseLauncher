@@ -22,7 +22,9 @@ Deleting that folder removes every trace of the launcher from the computer.
 ## Release 3.0
 ### New Features
 * Updated project `.NET` version from `.NET 8.0` to `.NET 10.0`
-* Removed the `TsadriuUtilities` dependency, the launcher now reads and writes the profiles file on its own (same file format as before).
+* Removed the `TsadriuUtilities` dependency, the launcher now reads and writes the profiles file on its own.
+* The profiles are now stored in a readable `profiles.json` file (like the launcher settings).
+  * An existing `profiles.csv` (or the ancient `profiles.txt`) is converted automatically on start up and then deleted.
 * The launcher is now multiplatform! It runs on Windows, macOS and Linux.
   * The user interface was moved from Windows Forms to [Avalonia UI](https://avaloniaui.net/).
   * The game is displayed through the webview engine of each platform (WebView2 on Windows, WKWebView on macOS, WebKitGTK on Linux), so the launcher stays small.

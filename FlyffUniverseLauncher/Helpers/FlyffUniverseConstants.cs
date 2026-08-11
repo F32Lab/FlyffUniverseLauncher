@@ -22,8 +22,12 @@ public abstract class FlyffUniverseConstants
         public static readonly string LogStorage = Path.Combine(ProgramStorage, "Logs");
         public static readonly string ProgramNetworkStorage = Path.Combine(ProgramStorage, "Network Data");
         public static readonly string ProfilesDirectory = Path.Combine(ProgramStorage, "Profile");
+
+        // The profile files of the older versions of the launcher. When one of them is found,
+        // it is converted once to the new profiles.json and then deleted.
         public static readonly string OldProfilesFile = Path.Combine(ProfilesDirectory, "profiles.txt");
-        public static readonly string ProfilesFile = Path.Combine(ProfilesDirectory, "profiles.csv");
+        public static readonly string OldCsvProfilesFile = Path.Combine(ProfilesDirectory, "profiles.csv");
+        public static readonly string ProfilesFile = Path.Combine(ProfilesDirectory, "profiles.json");
         public static readonly string LauncherFile = Path.Combine(ProgramStorage, "Launcher.json");
     }
 
