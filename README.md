@@ -1,7 +1,6 @@
 # Flyff Universe Launcher!
 * Uses libraries:
   * [Avalonia UI](https://avaloniaui.net/) (with [Avalonia WebView](https://docs.avaloniaui.net/docs/app-development/embedding-web-content))
-  * [TsadriuUtilities](https://github.com/Tsadriu/TsadriuUtilities)
 
 ##  Features 
 * Works on **Windows**, **macOS** and **Linux**!
@@ -23,6 +22,7 @@ Deleting that folder removes every trace of the launcher from the computer.
 ## Release 3.0
 ### New Features
 * Updated project `.NET` version from `.NET 8.0` to `.NET 10.0`
+* Removed the `TsadriuUtilities` dependency, the launcher now reads and writes the profiles file on its own (same file format as before).
 * The launcher is now multiplatform! It runs on Windows, macOS and Linux.
   * The user interface was moved from Windows Forms to [Avalonia UI](https://avaloniaui.net/).
   * The game is displayed through the webview engine of each platform (WebView2 on Windows, WKWebView on macOS, WebKitGTK on Linux), so the launcher stays small.

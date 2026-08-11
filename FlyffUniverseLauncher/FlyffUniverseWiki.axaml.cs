@@ -2,7 +2,6 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Platform;
 using FlyffUniverseLauncher.Helpers;
-using TsadriuUtilities;
 
 namespace FlyffUniverseLauncher
 {
@@ -26,11 +25,12 @@ namespace FlyffUniverseLauncher
         /// </summary>
         private void SetWindowProperties()
         {
+            // The helper window opens at 1280x720, or smaller when the screen cannot fit it.
             var screen = Screens.ScreenFromWindow(Program.launcher);
             var screenWidth = screen?.Bounds.Width ?? 1280;
             var screenHeight = screen?.Bounds.Height ?? 720;
-            Width = 1280.ClampValue(1280, screenWidth);
-            Height = 720.ClampValue(720, screenHeight);
+            Width = Math.Min(1280, screenWidth);
+            Height = Math.Min(720, screenHeight);
             Title += $"{Program.CurrentVersion} - Helper";
             Position = Program.launcher.Position;
         }

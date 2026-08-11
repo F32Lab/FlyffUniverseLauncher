@@ -7,19 +7,15 @@ using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using FlyffUniverseLauncher.Helpers;
-using TsadriuUtilities;
-using TsadriuUtilities.Csv;
-using TsadriuUtilities.Enums.StringHelper;
-using TsadriuUtilitiesOld;
 using FlyffUniverseLauncher.Classes;
+using FlyffUniverseLauncher.Classes.Csv;
 using FlyffUniverseLauncher.Classes.Json;
-using FlyffUniverseLauncher.Properties;
 
 namespace FlyffUniverseLauncher
 {
     public sealed partial class FlyffUniverseLauncher : Window
     {
-        private static ICsvTable _profilesTable = new CsvTable();
+        private static CsvTable _profilesTable = new CsvTable();
         private const string ProfileColumn = "Profile";
         private const string LastLoginColumn = "Last Login";
         private const string PreferredWidthColumn = "Preferred Width";
@@ -275,8 +271,8 @@ namespace FlyffUniverseLauncher
             var newProfile = new Profile()
             {
                 Name = newProfileName,
-                Width = (manageProfileWidthTextBox.Text ?? string.Empty).ToInt(),
-                Height = (manageProfileHeightTextBox.Text ?? string.Empty).ToInt(),
+                Width = int.Parse(manageProfileWidthTextBox.Text),
+                Height = int.Parse(manageProfileHeightTextBox.Text),
                 IsFullScreen = manageProfileFullscreenCheckBox.IsChecked == true,
             };
 
@@ -466,7 +462,7 @@ namespace FlyffUniverseLauncher
             // If the old profiles file exists, replace it with the new format
             if (File.Exists(FlyffUniverseConstants.Directory.OldProfilesFile))
             {
-                _profilesTable = new CsvTable(File.ReadAllText(FlyffUniverseConstants.Directory.OldProfilesFile).SplitBy(SplitType.EnvironmentNewLine), ";");
+                _profilesTable = new CsvTable(File.ReadAllLines(FlyffUniverseConstants.Directory.OldProfilesFile), ";");
                 _profilesTable["Width"].Name = PreferredWidthColumn;
                 _profilesTable["Height"].Name = PreferredHeightColumn;
                 _profilesTable.AddColumn(IsFullScreenColumn);
@@ -483,7 +479,7 @@ namespace FlyffUniverseLauncher
 
             if (File.Exists(FlyffUniverseConstants.Directory.ProfilesFile))
             {
-                _profilesTable = new CsvTable(File.ReadAllText(FlyffUniverseConstants.Directory.ProfilesFile).SplitBy(SplitType.EnvironmentNewLine), ";");
+                _profilesTable = new CsvTable(File.ReadAllLines(FlyffUniverseConstants.Directory.ProfilesFile), ";");
                 hasSetupData = true;
             }
 
@@ -501,9 +497,9 @@ namespace FlyffUniverseLauncher
                 var profile = new Profile
                 {
                     Name = _profilesTable[ProfileColumn].RowList[i]!,
-                    LastLogin = _profilesTable[LastLoginColumn].RowList[i].ToDateTime("dd/MM/yyyy HH:mm:ss", "dd.MM.yyyy HH:mm:ss"),
-                    Width = _profilesTable[PreferredWidthColumn].RowList[i].ToInt(),
-                    Height = _profilesTable[PreferredHeightColumn].RowList[i].ToInt(),
+                    LastLogin = ParseLastLogin(_profilesTable[LastLoginColumn].RowList[i]),
+                    Width = ParseNumber(_profilesTable[PreferredWidthColumn].RowList[i]),
+                    Height = ParseNumber(_profilesTable[PreferredHeightColumn].RowList[i]),
                     IsFullScreen = _profilesTable[IsFullScreenColumn].RowList[i] == "1",
                 };
 
@@ -511,6 +507,28 @@ namespace FlyffUniverseLauncher
             }
 
             ReloadComboBoxes();
+        }
+
+        /// <summary>
+        /// Parses a date of the profiles file. Both date formats that the launcher
+        /// has used over the years are accepted.
+        /// </summary>
+        /// <param name="date">The date to parse.</param>
+        private static DateTime ParseLastLogin(string? date)
+        {
+            string[] acceptedFormats = ["dd/MM/yyyy HH:mm:ss", "dd.MM.yyyy HH:mm:ss"];
+            DateTime.TryParseExact(date, acceptedFormats, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime result);
+            return result;
+        }
+
+        /// <summary>
+        /// Parses a number of the profiles file, falling back to 0 when the value is not a valid number.
+        /// </summary>
+        /// <param name="number">The number to parse.</param>
+        private static int ParseNumber(string? number)
+        {
+            int.TryParse(number, out int result);
+            return result;
         }
 
         /// <summary>

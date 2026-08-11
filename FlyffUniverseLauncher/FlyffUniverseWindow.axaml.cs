@@ -7,7 +7,6 @@ using Avalonia.Interactivity;
 using Avalonia.Platform;
 using FlyffUniverseLauncher.Classes;
 using FlyffUniverseLauncher.Helpers;
-using TsadriuUtilitiesOld;
 
 namespace FlyffUniverseLauncher
 {
@@ -91,9 +90,12 @@ namespace FlyffUniverseLauncher
         /// </summary>
         private void SetWindowProperties()
         {
+            // The profile name is shown with a capital first letter in the window title.
+            var profileName = _currentProfile.Name.Length > 0 ? char.ToUpper(_currentProfile.Name[0]) + _currentProfile.Name[1..] : _currentProfile.Name;
+
             Width = _currentProfile.Width;
             Height = _currentProfile.Height;
-            Title += $@"{Program.CurrentVersion} - {_currentProfile.Name.LetterUpperCase(0)}";
+            Title += $@"{Program.CurrentVersion} - {profileName}";
             Position = Program.launcher.Position;
 
             if (_currentProfile.IsFullScreen)

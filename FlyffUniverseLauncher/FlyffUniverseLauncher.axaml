@@ -68,11 +68,11 @@
                     <Grid ColumnDefinitions="*,12,*" Margin="0,6,0,0">
                         <StackPanel Grid.Column="0" Spacing="4">
                             <TextBlock x:Name="manageProfiles_preferredWidthLabel" Text="Preferred width" />
-                            <TextBox x:Name="manageProfileWidthTextBox" Watermark="1920" />
+                            <TextBox x:Name="manageProfileWidthTextBox" PlaceholderText="1920" />
                         </StackPanel>
                         <StackPanel Grid.Column="2" Spacing="4">
                             <TextBlock x:Name="manageProfiles_preferredHeightLabel" Text="Preffered height" />
-                            <TextBox x:Name="manageProfileHeightTextBox" Watermark="1080" />
+                            <TextBox x:Name="manageProfileHeightTextBox" PlaceholderText="1080" />
                         </StackPanel>
                     </Grid>
 

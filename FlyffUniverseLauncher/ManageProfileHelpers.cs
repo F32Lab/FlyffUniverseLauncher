@@ -1,4 +1,4 @@
-﻿using TsadriuUtilities.Csv;
+﻿using FlyffUniverseLauncher.Classes.Csv;
 
 namespace FlyffUniverseLauncher;
 
@@ -8,9 +8,9 @@ namespace FlyffUniverseLauncher;
 public static class ManageProfileHelpers
 {
     private const string ProfileColumn = "Profile";
-    private static ICsvTable? _profilesTable;
+    private static CsvTable? _profilesTable;
 
-    public static void Setup(ICsvTable profilesTable)
+    public static void Setup(CsvTable profilesTable)
     {
         _profilesTable = profilesTable;
     }
