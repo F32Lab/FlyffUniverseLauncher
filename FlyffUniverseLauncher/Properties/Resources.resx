@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
       Microsoft ResX Schema 
@@ -280,4 +280,28 @@ Press this button and it will automatically adapt to your screen</value>
   <data name="FUL_manageProfile_deleteAllProfilesButton_confirmation_caption" xml:space="preserve">
         <value>Delete all profiles?</value>
     </data>
+  <data name="FUL_dataFolderButton" xml:space="preserve">
+    <value>Open data folder</value>
+  </data>
+  <data name="FUL_dataFolderButton_tooltip" xml:space="preserve">
+    <value>The launcher saves all of its files (profiles, settings, browser data) in:
+$PATH$</value>
+  </data>
+  <data name="FUL_migration_message" xml:space="preserve">
+    <value>The launcher files have been moved to a new location.
+
+Old location:
+$OLD$
+
+New location:
+$NEW$
+
+The old folder has been deleted.</value>
+  </data>
+  <data name="FUL_migration_message_caption" xml:space="preserve">
+    <value>Launcher files moved</value>
+  </data>
+  <data name="FUL_selectUserInput_watermark" xml:space="preserve">
+    <value>Select or type a profile</value>
+  </data>
 </root>

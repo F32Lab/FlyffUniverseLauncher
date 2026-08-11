@@ -37,6 +37,27 @@ namespace FlyffUniverseLauncher
             Title += Program.CurrentVersion;
             ManageProfileHelpers.Setup(_profilesTable);
             LoadLauncherProperties();
+
+            // The migration popup can only be shown once the window is open.
+            Opened += ShowMigrationInfo;
+        }
+
+        /// <summary>
+        /// Informs the user that the launcher files of an older version were moved
+        /// to the new data folder, and where both locations are.
+        /// </summary>
+        private async void ShowMigrationInfo(object? sender, EventArgs e)
+        {
+            if (StorageMigration.MigratedFolders.Count == 0)
+            {
+                return;
+            }
+
+            var message = Properties.Resources.FUL_migration_message
+                .Replace("$OLD$", string.Join(Environment.NewLine, StorageMigration.MigratedFolders))
+                .Replace("$NEW$", FlyffUniverseConstants.Directory.ProgramStorage);
+
+            await MessageBox.Show(message, Properties.Resources.FUL_migration_message_caption, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         public static void SaveProfile(Profile profile)
@@ -68,21 +89,56 @@ namespace FlyffUniverseLauncher
                 return;
             }
 
-            if (!_profiles.Any(x => x.Name.Equals(currentUser, StringComparison.CurrentCultureIgnoreCase)))
+            // The profile is resolved from the typed text itself, so pressing 'Play' right after
+            // typing a valid name works even when no selection event has fired yet.
+            Profile? profileToLaunch = _profiles.Find(x => x.Name.Equals(currentUser, StringComparison.CurrentCultureIgnoreCase));
+
+            if (profileToLaunch == null)
             {
                 await MessageBox.Show(Properties.Resources.FUL_playButton_selected_profile_does_not_exist, Properties.Resources.FUL_playButton_selected_profile_does_not_exist_caption,
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            var flyff = new FlyffUniverseWindow(_selectedProfile);
+            _selectedProfile = profileToLaunch;
+
+            // If the profile is already running, bring its window to the front instead of
+            // launching it a second time (two windows cannot share the same network data).
+            var openWindow = FlyffUniverseWindow.GetOpenWindow(profileToLaunch.Name);
+
+            if (openWindow != null)
+            {
+                openWindow.Activate();
+                return;
+            }
+
+            var flyff = new FlyffUniverseWindow(profileToLaunch);
             flyff.LaunchGame();
+        }
+
+        /// <summary>
+        /// Pressing ENTER in the profile box launches the selected profile right away.
+        /// </summary>
+        private void selectUserInput_KeyDown(object? sender, Avalonia.Input.KeyEventArgs e)
+        {
+            if (e.Key == Avalonia.Input.Key.Enter)
+            {
+                playButton_Click(sender, new RoutedEventArgs());
+            }
         }
 
         private async void selectUserInput_SelectedIndexChanged(object? sender, SelectionChangedEventArgs e)
         {
             // During the selection event the Text property may not be updated yet, so the selected item is preferred.
             var selectedUser = selectUserInput.SelectedItem?.ToString() ?? selectUserInput.Text ?? string.Empty;
+
+            // The selection can be cleared by the launcher itself (for example after deleting a profile),
+            // that is not a wrong input of the user so no error is shown.
+            if (string.IsNullOrEmpty(selectedUser))
+            {
+                return;
+            }
+
             Profile? profileToSearch = _profiles.Find(x => x.Name.Equals(selectedUser, StringComparison.CurrentCultureIgnoreCase));
 
             if (profileToSearch == null)
@@ -111,7 +167,10 @@ namespace FlyffUniverseLauncher
                 await MessageBox.Show(Properties.Resources.FUL_selectUserInput_profileDoesNotExist, Properties.Resources.FUL_profileSettingsLabel, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 _selectedProfile = null!;
                 selectUserInput.Text = string.Empty;
+                return;
             }
+
+            _selectedProfile = profileToSearch;
         }
 
         private void PickRandomImage()
@@ -132,8 +191,9 @@ namespace FlyffUniverseLauncher
                 "img11",
             };
 
+            // The upper bound of Random.Next is exclusive, so every image can be picked.
             var random = new Random();
-            var randomNumber = random.Next(0, listOfImages.Count - 1);
+            var randomNumber = random.Next(0, listOfImages.Count);
 
             // The images are shipped as Avalonia assets, so they can be loaded the same way on every platform.
             var imageUri = new Uri($"avares://FlyffUniverseLauncher/Assets/Images/{listOfImages[randomNumber]}.jpg");
@@ -159,6 +219,19 @@ namespace FlyffUniverseLauncher
                 await MessageBox.Show(Properties.Resources.FUL_manageProfileSaveButton_profileAlreadyExists, Properties.Resources.FUL_manageProfileSaveButton_profileAlreadyExists_caption,
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
+                return;
+            }
+
+            // The width and height have to be numbers, exactly like when a new profile is created.
+            if (string.IsNullOrEmpty(manageProfileWidthTextBox.Text) || !manageProfileWidthTextBox.Text.All(char.IsDigit))
+            {
+                await MessageBox.Show(Properties.Resources.FULNP_saveButton_invalidWidth, Properties.Resources.FULNP_saveButton_invalidWidth_caption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (string.IsNullOrEmpty(manageProfileHeightTextBox.Text) || !manageProfileHeightTextBox.Text.All(char.IsDigit))
+            {
+                await MessageBox.Show(Properties.Resources.FULNP_saveButton_invalidHeight, Properties.Resources.FULNP_saveButton_invalidHeight_caption, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -292,11 +365,6 @@ namespace FlyffUniverseLauncher
                 var foldersToDelete = Directory.GetDirectories(FlyffUniverseConstants.Directory.ProgramNetworkStorage)
                     .Where(x => !x.Contains("flyffwiki") && !x.Contains("flyffnews")).ToList();
 
-                if (foldersToDelete.Count == 0)
-                {
-                    return;
-                }
-
                 foreach (var folder in foldersToDelete)
                 {
                     Directory.Delete(folder, true);
@@ -352,7 +420,8 @@ namespace FlyffUniverseLauncher
         /// <param name="username">The username whose network data should be deleted.</param>
         private void DeleteNetworkData(string username)
         {
-            var networkDataToDelete = Path.Combine(FlyffUniverseConstants.Directory.ProgramNetworkStorage, username);
+            // The folder name is sanitized the same way it was when the profile was launched.
+            var networkDataToDelete = Path.Combine(FlyffUniverseConstants.Directory.ProgramNetworkStorage, Regex.Replace(username, @"[^\w\d]", string.Empty));
 
             if (Directory.Exists(networkDataToDelete))
             {
@@ -392,7 +461,12 @@ namespace FlyffUniverseLauncher
                 _profilesTable["Width"].Name = PreferredWidthColumn;
                 _profilesTable["Height"].Name = PreferredHeightColumn;
                 _profilesTable.AddColumn(IsFullScreenColumn);
-                _profilesTable[IsFullScreenColumn].AddRow("0");
+
+                // Every existing profile gets its own row in the new column, otherwise the table would be misaligned.
+                for (int i = 0; i < _profilesTable[ProfileColumn].RowCount; i++)
+                {
+                    _profilesTable[IsFullScreenColumn].AddRow("0");
+                }
                 File.Delete(FlyffUniverseConstants.Directory.OldProfilesFile);
                 File.WriteAllLines(FlyffUniverseConstants.Directory.ProfilesFile, _profilesTable.ToList());
                 hasSetupData = true;
@@ -461,6 +535,29 @@ namespace FlyffUniverseLauncher
             _ = new FlyffUniverseNewProfile();
         }
 
+        /// <summary>
+        /// Opens the folder where the launcher saves all of its files in the file explorer
+        /// of the operating system, so the user can inspect (or delete) the data themselves.
+        /// </summary>
+        private async void openDataFolderButton_Click(object? sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Directory.CreateDirectory(FlyffUniverseConstants.Directory.ProgramStorage);
+                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+                {
+                    FileName = FlyffUniverseConstants.Directory.ProgramStorage,
+                    UseShellExecute = true,
+                });
+            }
+            catch (Exception)
+            {
+                // If no file explorer could be opened, at least show the user where the folder is.
+                await MessageBox.Show(Properties.Resources.FUL_dataFolderButton_tooltip.Replace("$PATH$", FlyffUniverseConstants.Directory.ProgramStorage),
+                    Properties.Resources.FUL_dataFolderButton, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
         private void ful__Language_ComboBox_SelectedIndexChanged(object? sender, SelectionChangedEventArgs e)
         {
             var selectedLanguage = (ful_language_comboBox.SelectedItem as ComboBoxItem)?.Content?.ToString();
@@ -483,13 +580,17 @@ namespace FlyffUniverseLauncher
             profileSettingsTab.Header = Properties.Resources.FUL_profileSettingsLabel;
             manageProfilesTab.Header = Properties.Resources.FUL_manageProfilesLabel;
             selectUserLabel.Text = Properties.Resources.FUL_selectUserLabel;
+            selectUserInput.Watermark = Properties.Resources.FUL_selectUserInput_watermark;
             playButton.Content = Properties.Resources.FUL_playButton;
             createNewProfileButton.Content = Properties.Resources.FUL_createNewProfileButton;
             ful_language_label.Text = Properties.Resources.FUL_language_label;
             ful_credit_label.Text = Properties.Resources.FUL_credit_label;
+            openDataFolderButton.Content = Properties.Resources.FUL_dataFolderButton;
+            ToolTip.SetTip(openDataFolderButton, Properties.Resources.FUL_dataFolderButton_tooltip.Replace("$PATH$", FlyffUniverseConstants.Directory.ProgramStorage));
 
             // Manage Profiles tab
             selectProfileToModifyLabel.Text = Properties.Resources.FUL_manageProfiles_selectProfileToModifyLabel;
+            manageProfileComboBox.Watermark = Properties.Resources.FUL_selectUserInput_watermark;
             manageProfiles_profileNameLabel.Text = Properties.Resources.FUL_manageProfiles_profileNameLabel;
             manageProfiles_preferredWidthLabel.Text = Properties.Resources.FUL_manageProfiles_preferredWidthLabel;
             manageProfiles_preferredHeightLabel.Text = Properties.Resources.FUL_manageProfiles_preferredHeightLabel;
@@ -518,9 +619,11 @@ namespace FlyffUniverseLauncher
                 }
                 catch (Exception exception)
                 {
+                    // The log folder has to exist before the log file can be written into it.
+                    Directory.CreateDirectory(FlyffUniverseConstants.Directory.LogStorage);
                     string fileName = $"{DateTime.Now:yyyy_MM_dd_HH_mm_ss}_launcher_error.log";
                     string description = Properties.Resources.FUL_launcherPropertiesJson_error.Replace("$LOCATION$",
-                        Path.Combine(FlyffUniverseConstants.Directory.LogStorage, FlyffUniverseConstants.Directory.LauncherFile));
+                        Path.Combine(FlyffUniverseConstants.Directory.LogStorage, fileName));
                     _ = MessageBox.Show(description, Properties.Resources.FUL_launcherPropertiesJson_error_caption, MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                     string errorMessage = "Could not deserialize the JSON launcher properties! File content: " + fileContent + " - Exception: " + exception;
@@ -568,9 +671,11 @@ namespace FlyffUniverseLauncher
                 }
                 catch (Exception exception)
                 {
+                    // The log folder has to exist before the log file can be written into it.
+                    Directory.CreateDirectory(FlyffUniverseConstants.Directory.LogStorage);
                     string fileName = $"{DateTime.Now:yyyy_MM_dd_HH_mm_ss}_update_launcher_error.log";
                     string description = Properties.Resources.FUL_launcherPropertiesJson_error.Replace("$LOCATION$",
-                        Path.Combine(FlyffUniverseConstants.Directory.LogStorage, FlyffUniverseConstants.Directory.LauncherFile));
+                        Path.Combine(FlyffUniverseConstants.Directory.LogStorage, fileName));
                     _ = MessageBox.Show(description, Properties.Resources.FUL_launcherPropertiesJson_error_caption, MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                     string errorMessage = "Could not deserialize the JSON launcher properties during the update! File content: " + fileContent + " - Exception: " +

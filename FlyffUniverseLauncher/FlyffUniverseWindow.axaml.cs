@@ -15,6 +15,9 @@ namespace FlyffUniverseLauncher
     {
         public static FlyffUniverseWiki? currentWikiWidow;
 
+        // Keeps track of the game windows that are currently open, one per profile.
+        private static readonly Dictionary<string, FlyffUniverseWindow> _openGameWindows = new(StringComparer.OrdinalIgnoreCase);
+
         private Profile _currentProfile;
         private bool _isFullScreen;
         private string _networkDataDirectory = string.Empty;
@@ -26,6 +29,25 @@ namespace FlyffUniverseLauncher
             flyffMenuStrip.IsVisible = false;
             SetWindowProperties();
             UpdateAllLabelsLanguage();
+            _openGameWindows[profile.Name] = this;
+        }
+
+        /// <summary>
+        /// Gets the game window that is currently running the given profile, or <c>null</c> if there is none.
+        /// </summary>
+        /// <param name="profileName">The name of the profile to look for.</param>
+        public static FlyffUniverseWindow? GetOpenWindow(string profileName)
+        {
+            return _openGameWindows.GetValueOrDefault(profileName);
+        }
+
+        /// <summary>
+        /// Called when the window is closed. Removes the profile from the list of running game windows.
+        /// </summary>
+        protected override void OnClosed(EventArgs e)
+        {
+            _openGameWindows.Remove(_currentProfile.Name);
+            base.OnClosed(e);
         }
 
         /// <summary>

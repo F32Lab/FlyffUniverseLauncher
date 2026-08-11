@@ -1,172 +1,196 @@
 <root>
-    <resheader name="resmimetype">
-        <value>text/microsoft-resx</value>
-    </resheader>
-    <resheader name="version">
-        <value>1.3</value>
-    </resheader>
-    <resheader name="reader">
-        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-    </resheader>
-    <resheader name="writer">
-        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-    </resheader>
-    <data name="FUL_manageProfile_deleteProfileButton_confirmation" xml:space="preserve">
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>1.3</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="FUL_manageProfile_deleteProfileButton_confirmation" xml:space="preserve">
         <value>Attenzione! Sei sicuro che vuoi eliminare il profilo '$USERNAME$'?</value>
     </data>
-    <data name="FUL_manageProfile_deleteProfileButton_confirmation_caption" xml:space="preserve">
+  <data name="FUL_manageProfile_deleteProfileButton_confirmation_caption" xml:space="preserve">
         <value>Eliminare il profilo '$USERNAME$'?</value>
     </data>
-    <data name="FULNP_saveButton_invalidHeight" xml:space="preserve">
+  <data name="FULNP_saveButton_invalidHeight" xml:space="preserve">
         <value>Per favore, inserire un numero valido per l'altezza</value>
     </data>
-    <data name="FULNP_saveButton_invalidHeight_caption" xml:space="preserve">
+  <data name="FULNP_saveButton_invalidHeight_caption" xml:space="preserve">
         <value>Altezza invalida</value>
     </data>
-    <data name="FULNP_saveButton_invalidUsername" xml:space="preserve">
+  <data name="FULNP_saveButton_invalidUsername" xml:space="preserve">
         <value>Per favore, inserire un nome per il nuovo profilo</value>
     </data>
-    <data name="FULNP_saveButton_invalidUsername_caption" xml:space="preserve">
+  <data name="FULNP_saveButton_invalidUsername_caption" xml:space="preserve">
         <value>Nome del profilo mancante</value>
     </data>
-    <data name="FULNP_saveButton_invalidWidth" xml:space="preserve">
+  <data name="FULNP_saveButton_invalidWidth" xml:space="preserve">
         <value>Per favore, inserire una larghezza valida</value>
     </data>
-    <data name="FULNP_saveButton_invalidWidthAndHeight" xml:space="preserve">
+  <data name="FULNP_saveButton_invalidWidthAndHeight" xml:space="preserve">
         <value>Per favore, inserire un'altezza o larghezza valida per il profilo nuovo. Se non sei sicuro, premi il pulsante 'Adatta allo schermo'</value>
     </data>
-    <data name="FULNP_saveButton_invalidWidthAndHeight_caption" xml:space="preserve">
+  <data name="FULNP_saveButton_invalidWidthAndHeight_caption" xml:space="preserve">
         <value>Altezza o larghezza mancante</value>
     </data>
-    <data name="FULNP_saveButton_invalidWidth_caption" xml:space="preserve">
+  <data name="FULNP_saveButton_invalidWidth_caption" xml:space="preserve">
         <value>Larghezza invalida</value>
     </data>
-    <data name="FULNP_saveButton_success" xml:space="preserve">
+  <data name="FULNP_saveButton_success" xml:space="preserve">
         <value>Profile salvato con successo!</value>
     </data>
-    <data name="FULNP_saveButton_success_caption" xml:space="preserve">
+  <data name="FULNP_saveButton_success_caption" xml:space="preserve">
         <value>Successo</value>
     </data>
-    <data name="FUL_playButton_no_profile_selected" xml:space="preserve">
+  <data name="FUL_playButton_no_profile_selected" xml:space="preserve">
         <value>Per favore, seleziona un profilo prima di eseguire il gioco</value>
     </data>
-    <data name="FUL_playButton_no_profile_selected_caption" xml:space="preserve">
+  <data name="FUL_playButton_no_profile_selected_caption" xml:space="preserve">
         <value>Nessun profilo selezionato</value>
     </data>
-    <data name="FUL_playButton_selected_profile_does_not_exist" xml:space="preserve">
+  <data name="FUL_playButton_selected_profile_does_not_exist" xml:space="preserve">
         <value>Il profilo selezionato non esiste. Per favore seleziona uno dall'elenco.</value>
     </data>
-    <data name="FUL_playButton_selected_profile_does_not_exist_caption" xml:space="preserve">
+  <data name="FUL_playButton_selected_profile_does_not_exist_caption" xml:space="preserve">
         <value>Profilo selezionato non esiste</value>
     </data>
-    <data name="FUL_selectUserInput_profileDoesNotExist" xml:space="preserve">
+  <data name="FUL_selectUserInput_profileDoesNotExist" xml:space="preserve">
         <value>Quel profilo non esiste. Per favore, seleziona un'altro profilo.</value>
     </data>
-    <data name="FUL_selectUserInput_profileDoesNotExist_caption" xml:space="preserve">
+  <data name="FUL_selectUserInput_profileDoesNotExist_caption" xml:space="preserve">
         <value>Quel profillo non esiste</value>
     </data>
-    <data name="FULW_flyffModelViewerMenuItem" xml:space="preserve">
+  <data name="FULW_flyffModelViewerMenuItem" xml:space="preserve">
         <value>Modelli di Flyff</value>
     </data>
-    <data name="FULW_frozenGameMenuItem" xml:space="preserve">
+  <data name="FULW_frozenGameMenuItem" xml:space="preserve">
         <value>Ricarica il client</value>
     </data>
-    <data name="FULW_HideMenuMenuItem" xml:space="preserve">
+  <data name="FULW_HideMenuMenuItem" xml:space="preserve">
         <value>Nascondi menu</value>
     </data>
-    <data name="FUL_profileSettingsLabel" xml:space="preserve">
+  <data name="FUL_profileSettingsLabel" xml:space="preserve">
         <value>Impostazioni Profilo</value>
     </data>
-    <data name="FUL_manageProfilesLabel" xml:space="preserve">
+  <data name="FUL_manageProfilesLabel" xml:space="preserve">
         <value>Gestione Profili</value>
     </data>
-    <data name="FUL_credit_label" xml:space="preserve">
+  <data name="FUL_credit_label" xml:space="preserve">
         <value>Creato da Tsadriu
 Creato con Avalonia UI</value>
     </data>
-    <data name="FUL_language_label" xml:space="preserve">
+  <data name="FUL_language_label" xml:space="preserve">
         <value>Lingua del launcher</value>
     </data>
-    <data name="FUL_playButton" xml:space="preserve">
+  <data name="FUL_playButton" xml:space="preserve">
         <value>Gioca</value>
     </data>
-    <data name="FUL_selectUserLabel" xml:space="preserve">
+  <data name="FUL_selectUserLabel" xml:space="preserve">
         <value>Selezione un profilo o creane uno nuovo:</value>
     </data>
-    <data name="FUL_manageProfileSaveButton_success_caption" xml:space="preserve">
+  <data name="FUL_manageProfileSaveButton_success_caption" xml:space="preserve">
         <value>Successo</value>
     </data>
-    <data name="FUL_manageProfileSaveButton_success" xml:space="preserve">
+  <data name="FUL_manageProfileSaveButton_success" xml:space="preserve">
         <value>I cambiamenti apportati sono stati salvati correttamente!</value>
     </data>
-    <data name="FUL_manageProfileSaveButton_profileAlreadyExists_caption" xml:space="preserve">
+  <data name="FUL_manageProfileSaveButton_profileAlreadyExists_caption" xml:space="preserve">
         <value>Il profilo esiste già</value>
     </data>
-    <data name="FUL_manageProfileSaveButton_profileAlreadyExists" xml:space="preserve">
+  <data name="FUL_manageProfileSaveButton_profileAlreadyExists" xml:space="preserve">
         <value>Un profile con quel nome esiste già. Per favore, seleziona un'altro nome.</value>
     </data>
-    <data name="FUL_manageProfileSaveButton_oldProfile_doesNotExist_caption" xml:space="preserve">
+  <data name="FUL_manageProfileSaveButton_oldProfile_doesNotExist_caption" xml:space="preserve">
         <value>Attenzione</value>
     </data>
-    <data name="FUL_manageProfileSaveButton_oldProfile_doesNotExist" xml:space="preserve">
+  <data name="FUL_manageProfileSaveButton_oldProfile_doesNotExist" xml:space="preserve">
         <value>Qualcosa è andato storto! Il profilo selezionato non esiste. Sarà creato un nuovo profilo col nome selezionato.</value>
     </data>
-    <data name="FUL_createNewProfileButton" xml:space="preserve">
+  <data name="FUL_createNewProfileButton" xml:space="preserve">
         <value>Crea profilo</value>
     </data>
-    <data name="FUL_manageProfiles_selectProfileToModifyLabel" xml:space="preserve">
+  <data name="FUL_manageProfiles_selectProfileToModifyLabel" xml:space="preserve">
         <value>Seleziona il profile da modificare:</value>
     </data>
-    <data name="FUL_manageProfiles_saveChangesButton" xml:space="preserve">
+  <data name="FUL_manageProfiles_saveChangesButton" xml:space="preserve">
         <value>Salva le modifiche</value>
     </data>
-    <data name="FUL_manageProfiles_profileNameLabel" xml:space="preserve">
+  <data name="FUL_manageProfiles_profileNameLabel" xml:space="preserve">
         <value>Nome del profilo</value>
     </data>
-    <data name="FUL_manageProfiles_preferredWidthLabel" xml:space="preserve">
+  <data name="FUL_manageProfiles_preferredWidthLabel" xml:space="preserve">
         <value>Larghezza</value>
     </data>
-    <data name="FUL_manageProfiles_preferredHeightLabel" xml:space="preserve">
+  <data name="FUL_manageProfiles_preferredHeightLabel" xml:space="preserve">
         <value>Altezza</value>
     </data>
-    <data name="FUL_manageProfiles_fullscreenLabel" xml:space="preserve">
+  <data name="FUL_manageProfiles_fullscreenLabel" xml:space="preserve">
         <value>Schermo intero?</value>
     </data>
-    <data name="FUL_manageProfiles_deleteProfileButton" xml:space="preserve">
+  <data name="FUL_manageProfiles_deleteProfileButton" xml:space="preserve">
         <value>Elimina profilo</value>
     </data>
-    <data name="FUL_manageProfiles_deleteAllProfilesButton" xml:space="preserve">
+  <data name="FUL_manageProfiles_deleteAllProfilesButton" xml:space="preserve">
         <value>Elimina tutti profili</value>
     </data>
-    <data name="FUL_manageProfiles_adaptToScreenSizeButton" xml:space="preserve">
+  <data name="FUL_manageProfiles_adaptToScreenSizeButton" xml:space="preserve">
         <value>Adatta allo schermo</value>
     </data>
-    <data name="FULNP_preferredWidthLabel_tooltip" xml:space="preserve">
+  <data name="FULNP_preferredWidthLabel_tooltip" xml:space="preserve">
         <value>La larghezza del programma quando viene eseguito un profilo.</value>
     </data>
-    <data name="FULNP_preferredHeightLabel_tooltip" xml:space="preserve">
+  <data name="FULNP_preferredHeightLabel_tooltip" xml:space="preserve">
         <value>L'altezza del programma quando viene eseguito un profilo.</value>
     </data>
-    <data name="FULNP_fullscreenLabel_tooltip" xml:space="preserve">
+  <data name="FULNP_fullscreenLabel_tooltip" xml:space="preserve">
         <value>Se è abilitato, quando viene lanciato un profile, il programma sarà  in modalità  schermo intero.</value>
     </data>
-    <data name="FULNP_adaptScreenSize_tooltip" xml:space="preserve">
+  <data name="FULNP_adaptScreenSize_tooltip" xml:space="preserve">
         <value>Non sei sicuro della larghezza e/o dell'altezza del tuo schermo?
 Premi questo pulsante e si adatterà automaticamente al tuo schermo.</value>
     </data>
-    <data name="FULNP_saveButton" xml:space="preserve">
+  <data name="FULNP_saveButton" xml:space="preserve">
         <value>Crea profilo</value>
     </data>
-    <data name="FUL_launcherPropertiesJson_error" xml:space="preserve">
+  <data name="FUL_launcherPropertiesJson_error" xml:space="preserve">
         <value>Qualcosa è andato storto nella lettura delle proprietà  del launcher. Un file di log è stato generato in $LOCATION$, per favore contatta lo sviluppatore e inviagli il file.</value>
     </data>
-    <data name="FUL_launcherPropertiesJson_error_caption" xml:space="preserve">
+  <data name="FUL_launcherPropertiesJson_error_caption" xml:space="preserve">
         <value>Errore lettura proprietà del launcher</value>
     </data>
-    <data name="FUL_manageProfile_deleteAllProfilesButton_confirmation" xml:space="preserve">
+  <data name="FUL_manageProfile_deleteAllProfilesButton_confirmation" xml:space="preserve">
         <value>Attenzione! Sei sicuro che vuoi eliminare tutti i profili?</value>
     </data>
-    <data name="FUL_manageProfile_deleteAllProfilesButton_confirmation_caption" xml:space="preserve">
+  <data name="FUL_manageProfile_deleteAllProfilesButton_confirmation_caption" xml:space="preserve">
         <value>Eliminare tutti i profili?</value>
     </data>
+  <data name="FUL_dataFolderButton" xml:space="preserve">
+    <value>Apri la cartella dei dati</value>
+  </data>
+  <data name="FUL_dataFolderButton_tooltip" xml:space="preserve">
+    <value>Il launcher salva tutti i suoi file (profili, impostazioni, dati del browser) in:
+$PATH$</value>
+  </data>
+  <data name="FUL_migration_message" xml:space="preserve">
+    <value>I file del launcher sono stati spostati in una nuova posizione.
+
+Vecchia posizione:
+$OLD$
+
+Nuova posizione:
+$NEW$
+
+La vecchia cartella è stata eliminata.</value>
+  </data>
+  <data name="FUL_migration_message_caption" xml:space="preserve">
+    <value>File del launcher spostati</value>
+  </data>
+  <data name="FUL_selectUserInput_watermark" xml:space="preserve">
+    <value>Seleziona o scrivi un profilo</value>
+  </data>
 </root>

@@ -15,11 +15,11 @@
         <Grid ColumnDefinitions="*,12,*" Margin="0,6,0,0">
             <StackPanel Grid.Column="0" Spacing="4">
                 <TextBlock x:Name="newProfilePrefWidthLabel" Text="Preferred width" />
-                <TextBox x:Name="newProfilePrefWidthTextBox" />
+                <TextBox x:Name="newProfilePrefWidthTextBox" Watermark="1920" />
             </StackPanel>
             <StackPanel Grid.Column="2" Spacing="4">
                 <TextBlock x:Name="newProfilePrefHeightLabel" Text="Preffered height" />
-                <TextBox x:Name="newProfilePrefHeightTextBox" />
+                <TextBox x:Name="newProfilePrefHeightTextBox" Watermark="1080" />
             </StackPanel>
         </Grid>
 

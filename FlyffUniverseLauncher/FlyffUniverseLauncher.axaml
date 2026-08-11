@@ -32,6 +32,9 @@
                             <ComboBoxItem Content="Italiano" />
                             <ComboBoxItem Content="Deutsch" />
                         </ComboBox>
+                        <!-- Shows the user where the launcher stores its files, the full path is in the tooltip. -->
+                        <Button x:Name="openDataFolderButton" Content="Open data folder" Margin="0,8,0,0"
+                                Click="openDataFolderButton_Click" />
                         <TextBlock x:Name="ful_credit_label" FontStyle="Italic" FontSize="12" Margin="0,12,0,0"
                                    Text="Made by Tsadriu" />
                     </StackPanel>
@@ -40,7 +43,8 @@
                         <TextBlock x:Name="selectUserLabel" Text="Select a profile or type a new one:" />
                         <AutoCompleteBox x:Name="selectUserInput" FilterMode="Contains" MinimumPrefixLength="0"
                                          SelectionChanged="selectUserInput_SelectedIndexChanged"
-                                         TextChanged="selectUserInput_TextChanged" />
+                                         TextChanged="selectUserInput_TextChanged"
+                                         KeyDown="selectUserInput_KeyDown" />
                         <StackPanel Orientation="Horizontal" Spacing="8">
                             <Button x:Name="playButton" Content="Launch profile" MinWidth="130"
                                     Click="playButton_Click" />
@@ -64,11 +68,11 @@
                     <Grid ColumnDefinitions="*,12,*" Margin="0,6,0,0">
                         <StackPanel Grid.Column="0" Spacing="4">
                             <TextBlock x:Name="manageProfiles_preferredWidthLabel" Text="Preferred width" />
-                            <TextBox x:Name="manageProfileWidthTextBox" />
+                            <TextBox x:Name="manageProfileWidthTextBox" Watermark="1920" />
                         </StackPanel>
                         <StackPanel Grid.Column="2" Spacing="4">
                             <TextBlock x:Name="manageProfiles_preferredHeightLabel" Text="Preffered height" />
-                            <TextBox x:Name="manageProfileHeightTextBox" />
+                            <TextBox x:Name="manageProfileHeightTextBox" Watermark="1080" />
                         </StackPanel>
                     </Grid>
 

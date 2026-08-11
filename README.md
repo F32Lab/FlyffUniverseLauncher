@@ -13,14 +13,32 @@
 ##  License
 MIT
 
+##  Where the launcher saves its data
+The launcher stores everything (profiles, settings, browser data) in one folder, which can also be opened directly with the *Open data folder* button inside the launcher:
+* **Windows**: `C:\Users\<name>\AppData\Local\Flyff Universe Launcher`
+* **macOS / Linux**: `~/.local/share/Flyff Universe Launcher`
+
+Deleting that folder removes every trace of the launcher from the computer.
+
 ## Release 3.0
 ### New Features
 * The launcher is now multiplatform! It runs on Windows, macOS and Linux.
   * The user interface was moved from Windows Forms to [Avalonia UI](https://avaloniaui.net/).
   * The game is displayed through the webview engine of each platform (WebView2 on Windows, WKWebView on macOS, WebKitGTK on Linux), so the launcher stays small.
   * Every profile still keeps its own separate network data (cookies, cache, login), also on macOS and Linux.
-* On macOS and Linux the launcher data is stored in the user's local application data folder, since the root of the drive is not writable there.
-  * On Windows nothing changes, so already existing profiles keep working.
+* The launcher data now lives in the standard application data folder (see *Where the launcher saves its data* above).
+  * Data of older versions (stored at the root of the drive, e.g. `C:\Flyff Universe Launcher`) is moved over automatically on the first start, the old folder is deleted and a pop-up shows both locations.
+  * A new *Open data folder* button in the launcher opens that folder directly.
+### Quality of Life
+* Pressing **ENTER** in the profile box launches the selected profile right away.
+* If a profile is already running, pressing *Play* again brings its window to the front instead of launching it twice.
+* The width and height fields are now validated in the *Manage Profiles* tab too, and the input boxes show hints about what is expected.
+### Bugfixes
+* The last background image of the launcher can now actually appear (it was never picked before).
+* Converting profiles of very old versions (`profiles.txt`) no longer misaligns the profile table when there is more than one profile.
+* `Delete all profiles` now updates the profile file even when no network data folders exist.
+* Deleting a profile whose name contains special characters now also deletes its network data folder.
+* Error logs are now written correctly even when the log folder does not exist yet.
 
 ## Release 2.0
 ### New Features

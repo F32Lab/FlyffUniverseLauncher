@@ -526,5 +526,50 @@ namespace FlyffUniverseLauncher.Properties {
                 return ResourceManager.GetString("FUL_manageProfile_deleteAllProfilesButton_confirmation_caption", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Open data folder.
+        /// </summary>
+        internal static string FUL_dataFolderButton {
+            get {
+                return ResourceManager.GetString("FUL_dataFolderButton", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The launcher saves all of its files (profiles, settings, browser dat [rest of string was truncated].
+        /// </summary>
+        internal static string FUL_dataFolderButton_tooltip {
+            get {
+                return ResourceManager.GetString("FUL_dataFolderButton_tooltip", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The launcher files have been moved to a new location. [rest of string was truncated].
+        /// </summary>
+        internal static string FUL_migration_message {
+            get {
+                return ResourceManager.GetString("FUL_migration_message", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Launcher files moved.
+        /// </summary>
+        internal static string FUL_migration_message_caption {
+            get {
+                return ResourceManager.GetString("FUL_migration_message_caption", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Select or type a profile.
+        /// </summary>
+        internal static string FUL_selectUserInput_watermark {
+            get {
+                return ResourceManager.GetString("FUL_selectUserInput_watermark", resourceCulture);
+            }
+        }
     }
 }

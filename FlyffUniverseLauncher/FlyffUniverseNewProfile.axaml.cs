@@ -54,9 +54,11 @@ public sealed partial class FlyffUniverseNewProfile : Window
             return;
         }
 
+        // The name is stored in lower case, so the profile folders stay consistent
+        // also on file systems that are case sensitive (like on Linux).
         Profile profile = new Profile()
         {
-            Name = Regex.Replace(newProfileNameTextBox.Text, @"[^\w\d]", string.Empty),
+            Name = Regex.Replace(newProfileNameTextBox.Text.ToLower(), @"[^\w\d]", string.Empty),
             Width = int.Parse(newProfilePrefWidthTextBox.Text),
             Height = int.Parse(newProfilePrefHeightTextBox.Text),
             IsFullScreen = newProfileFullscreenCheckBox.IsChecked == true,
