@@ -1,0 +1,77 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="FlyffUniverseLauncher.FlyffUniverseWindow"
+        Title="Flyff Universe Launcher - "
+        Width="1264" Height="681"
+        WindowStartupLocation="Manual"
+        Background="DarkGray"
+        KeyDown="webView_KeyDown"
+        Icon="/Assets/Icons/program.ico">
+
+    <DockPanel>
+        <!-- The utility toolbar. It is hidden by default and can be shown/hidden with the HOME key. -->
+        <Menu x:Name="flyffMenuStrip" DockPanel.Dock="Top" IsVisible="False">
+            <MenuItem x:Name="flyffipediaMenuitem" Header="Flyffipedia"
+                      ToolTip.Tip="Opens a new window with the Flyffipedia page"
+                      Click="flyffipediaMenuitem_Click">
+                <MenuItem.Icon>
+                    <Image Source="avares://FlyffUniverseLauncher/Assets/Images/flyffipedia.png" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem x:Name="madrigalinsideMenuItem" Header="Madrigalinside"
+                      Click="madrigalinsideMenuItem_Click">
+                <MenuItem.Icon>
+                    <Image Source="avares://FlyffUniverseLauncher/Assets/Images/madrigaslinside.png" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem x:Name="flyffMeMenuItem" Header="Flyff.Me">
+                <MenuItem.Icon>
+                    <Image Source="avares://FlyffUniverseLauncher/Assets/Images/flyfftrainer.png" />
+                </MenuItem.Icon>
+                <MenuItem x:Name="flyffMeMadrigalMap" Header="Map" Click="flyffMeMadrigalMap_Click">
+                    <MenuItem.Icon>
+                        <Image Source="avares://FlyffUniverseLauncher/Assets/Images/Elementor_Cursed_Mind.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem x:Name="flyffMeTrainer" Header="Trainer" Click="flyffMeTrainer_Click">
+                    <MenuItem.Icon>
+                        <Image Source="avares://FlyffUniverseLauncher/Assets/Images/Mercenary_Sword_Mastery.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem x:Name="flyffModelViewerMenuItem" Header="Flyff Model Viewer"
+                      Click="flyffModelViewerMenuItem_Click">
+                <MenuItem.Icon>
+                    <Image Source="avares://FlyffUniverseLauncher/Assets/Images/modelviewer.png" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem x:Name="skillulatorMenuItem" Header="Skillulator"
+                      Click="skillulatorMenuItem_Click">
+                <MenuItem.Icon>
+                    <Image Source="avares://FlyffUniverseLauncher/Assets/Images/skillulator.png" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem x:Name="frozenGameClickHereToolStripMenuItem" Header="Frozen game"
+                      ToolTip.Tip="Click here in case the game window has frozen"
+                      Click="frozenGameClickHereToolStripMenuItem_Click">
+                <MenuItem.Icon>
+                    <Image Source="avares://FlyffUniverseLauncher/Assets/Images/Elementor_Blizzard.png" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem x:Name="hideToolbarMenuItem" Header="Hide menu"
+                      Click="hideToolbarMenuItem_Click">
+                <MenuItem.Icon>
+                    <Image Source="avares://FlyffUniverseLauncher/Assets/Images/Jester_Silence.png" />
+                </MenuItem.Icon>
+            </MenuItem>
+        </Menu>
+
+        <!-- The game itself. The webview fills all the remaining space of the window,
+             so no manual resize handling is needed anymore. -->
+        <NativeWebView x:Name="webView"
+                       EnvironmentRequested="webView_EnvironmentRequested"
+                       NavigationCompleted="webView_NavigationCompleted"
+                       WebMessageReceived="webView_WebMessageReceived" />
+    </DockPanel>
+
+</Window>

@@ -1,6 +1,6 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
-    <!-- 
+  <!-- 
       Microsoft ResX Schema 
       
       Version 2.0
@@ -59,342 +59,225 @@
               : using a System.ComponentModel.TypeConverter
               : and then encoded with base64 encoding.
       -->
-    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-        <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
-        <xsd:element name="root" msdata:IsDataSet="true">
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
             <xsd:complexType>
-                <xsd:choice maxOccurs="unbounded">
-                    <xsd:element name="metadata">
-                        <xsd:complexType>
-                            <xsd:sequence>
-                                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
-                            </xsd:sequence>
-                            <xsd:attribute name="name" use="required" type="xsd:string"/>
-                            <xsd:attribute name="type" type="xsd:string"/>
-                            <xsd:attribute name="mimetype" type="xsd:string"/>
-                            <xsd:attribute ref="xml:space"/>
-                        </xsd:complexType>
-                    </xsd:element>
-                    <xsd:element name="assembly">
-                        <xsd:complexType>
-                            <xsd:attribute name="alias" type="xsd:string"/>
-                            <xsd:attribute name="name" type="xsd:string"/>
-                        </xsd:complexType>
-                    </xsd:element>
-                    <xsd:element name="data">
-                        <xsd:complexType>
-                            <xsd:sequence>
-                                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
-                                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
-                            </xsd:sequence>
-                            <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
-                            <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
-                            <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
-                            <xsd:attribute ref="xml:space"/>
-                        </xsd:complexType>
-                    </xsd:element>
-                    <xsd:element name="resheader">
-                        <xsd:complexType>
-                            <xsd:sequence>
-                                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
-                            </xsd:sequence>
-                            <xsd:attribute name="name" type="xsd:string" use="required"/>
-                        </xsd:complexType>
-                    </xsd:element>
-                </xsd:choice>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
-        </xsd:element>
-    </xsd:schema>
-    <resheader name="resmimetype">
-        <value>text/microsoft-resx</value>
-    </resheader>
-    <resheader name="version">
-        <value>2.0</value>
-    </resheader>
-    <resheader name="reader">
-        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral,
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral,
             PublicKeyToken=b77a5c561934e089
         </value>
-    </resheader>
-    <resheader name="writer">
-        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral,
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral,
             PublicKeyToken=b77a5c561934e089
         </value>
-    </resheader>
-    <assembly alias="System.Windows.Forms"
-              name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"/>
-    <data name="img1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-        <value>..\Assets\Images\img1.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral,
-            PublicKeyToken=b03f5f7f11d50a3a
-        </value>
-    </data>
-    <data name="img7" type="System.Resources.ResXFileRef, System.Windows.Forms">
-        <value>..\Assets\Images\img7.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral,
-            PublicKeyToken=b03f5f7f11d50a3a
-        </value>
-    </data>
-    <data name="img6" type="System.Resources.ResXFileRef, System.Windows.Forms">
-        <value>..\Assets\Images\img6.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral,
-            PublicKeyToken=b03f5f7f11d50a3a
-        </value>
-    </data>
-    <data name="img11" type="System.Resources.ResXFileRef, System.Windows.Forms">
-        <value>..\Assets\Images\img11.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral,
-            PublicKeyToken=b03f5f7f11d50a3a
-        </value>
-    </data>
-    <data name="img0" type="System.Resources.ResXFileRef, System.Windows.Forms">
-        <value>..\Assets\Images\img0.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral,
-            PublicKeyToken=b03f5f7f11d50a3a
-        </value>
-    </data>
-    <data name="modelviewer" type="System.Resources.ResXFileRef, System.Windows.Forms">
-        <value>..\Assets\Images\modelviewer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral,
-            PublicKeyToken=b03f5f7f11d50a3a
-        </value>
-    </data>
-    <data name="img2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-        <value>..\Assets\Images\img2.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral,
-            PublicKeyToken=b03f5f7f11d50a3a
-        </value>
-    </data>
-    <data name="img8" type="System.Resources.ResXFileRef, System.Windows.Forms">
-        <value>..\Assets\Images\img8.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral,
-            PublicKeyToken=b03f5f7f11d50a3a
-        </value>
-    </data>
-    <data name="img10" type="System.Resources.ResXFileRef, System.Windows.Forms">
-        <value>..\Assets\Images\img10.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral,
-            PublicKeyToken=b03f5f7f11d50a3a
-        </value>
-    </data>
-    <data name="img3" type="System.Resources.ResXFileRef, System.Windows.Forms">
-        <value>..\Assets\Images\img3.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral,
-            PublicKeyToken=b03f5f7f11d50a3a
-        </value>
-    </data>
-    <data name="img9" type="System.Resources.ResXFileRef, System.Windows.Forms">
-        <value>..\Assets\Images\img9.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral,
-            PublicKeyToken=b03f5f7f11d50a3a
-        </value>
-    </data>
-    <data name="Mercenary_Sword_Mastery" type="System.Resources.ResXFileRef, System.Windows.Forms">
-        <value>..\Assets\Images\Mercenary_Sword_Mastery.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral,
-            PublicKeyToken=b03f5f7f11d50a3a
-        </value>
-    </data>
-    <data name="madrigaslinside" type="System.Resources.ResXFileRef, System.Windows.Forms">
-        <value>..\Assets\Images\madrigaslinside.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral,
-            PublicKeyToken=b03f5f7f11d50a3a
-        </value>
-    </data>
-    <data name="madrigalmap" type="System.Resources.ResXFileRef, System.Windows.Forms">
-        <value>..\Assets\Images\madrigalmap.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral,
-            PublicKeyToken=b03f5f7f11d50a3a
-        </value>
-    </data>
-    <data name="flyffipedia" type="System.Resources.ResXFileRef, System.Windows.Forms">
-        <value>..\Assets\Images\flyffipedia.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral,
-            PublicKeyToken=b03f5f7f11d50a3a
-        </value>
-    </data>
-    <data name="Elementor_Cursed_Mind" type="System.Resources.ResXFileRef, System.Windows.Forms">
-        <value>..\Assets\Images\Elementor_Cursed_Mind.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral,
-            PublicKeyToken=b03f5f7f11d50a3a
-        </value>
-    </data>
-    <data name="flyfftrainer" type="System.Resources.ResXFileRef, System.Windows.Forms">
-        <value>..\Assets\Images\flyfftrainer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral,
-            PublicKeyToken=b03f5f7f11d50a3a
-        </value>
-    </data>
-    <data name="Elementor_Blizzard" type="System.Resources.ResXFileRef, System.Windows.Forms">
-        <value>..\Assets\Images\Elementor_Blizzard.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral,
-            PublicKeyToken=b03f5f7f11d50a3a
-        </value>
-    </data>
-    <data name="flyffulator" type="System.Resources.ResXFileRef, System.Windows.Forms">
-        <value>..\Assets\Images\flyffulator.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral,
-            PublicKeyToken=b03f5f7f11d50a3a
-        </value>
-    </data>
-    <data name="skillulator" type="System.Resources.ResXFileRef, System.Windows.Forms">
-        <value>..\Assets\Images\skillulator.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral,
-            PublicKeyToken=b03f5f7f11d50a3a
-        </value>
-    </data>
-    <data name="img5" type="System.Resources.ResXFileRef, System.Windows.Forms">
-        <value>..\Assets\Images\img5.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral,
-            PublicKeyToken=b03f5f7f11d50a3a
-        </value>
-    </data>
-    <data name="img4" type="System.Resources.ResXFileRef, System.Windows.Forms">
-        <value>..\Assets\Images\img4.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral,
-            PublicKeyToken=b03f5f7f11d50a3a
-        </value>
-    </data>
-    <data name="Jester_Silence" type="System.Resources.ResXFileRef, System.Windows.Forms">
-        <value>..\Assets\Images\Jester_Silence.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral,
-            PublicKeyToken=b03f5f7f11d50a3a
-        </value>
-    </data>
-    <data name="FUL_playButton_no_profile_selected" xml:space="preserve">
+  </resheader>
+  <data name="FUL_playButton_no_profile_selected" xml:space="preserve">
         <value>Please select a profile before launching the game.</value>
     </data>
-    <data name="FUL_playButton_no_profile_selected_caption" xml:space="preserve">
+  <data name="FUL_playButton_no_profile_selected_caption" xml:space="preserve">
         <value>No profile selected</value>
     </data>
-    <data name="FUL_playButton_selected_profile_does_not_exist" xml:space="preserve">
+  <data name="FUL_playButton_selected_profile_does_not_exist" xml:space="preserve">
         <value>The profile selected does not exist. Please select one from the profile list.</value>
     </data>
-    <data name="FUL_playButton_selected_profile_does_not_exist_caption" xml:space="preserve">
+  <data name="FUL_playButton_selected_profile_does_not_exist_caption" xml:space="preserve">
         <value>Profile selected does not exist</value>
     </data>
-    <data name="FULNP_saveButton_success" xml:space="preserve">
+  <data name="FULNP_saveButton_success" xml:space="preserve">
         <value>Profile successfully saved!</value>
     </data>
-    <data name="FULNP_saveButton_success_caption" xml:space="preserve">
+  <data name="FULNP_saveButton_success_caption" xml:space="preserve">
         <value>Success</value>
     </data>
-    <data name="FULNP_saveButton_invalidHeight" xml:space="preserve">
+  <data name="FULNP_saveButton_invalidHeight" xml:space="preserve">
         <value>Please enter a valid number for the height</value>
     </data>
-    <data name="FULNP_saveButton_invalidHeight_caption" xml:space="preserve">
+  <data name="FULNP_saveButton_invalidHeight_caption" xml:space="preserve">
         <value>Invalid height</value>
     </data>
-    <data name="FULNP_saveButton_invalidWidth" xml:space="preserve">
+  <data name="FULNP_saveButton_invalidWidth" xml:space="preserve">
         <value>Please enter a valid number for the width</value>
     </data>
-    <data name="FULNP_saveButton_invalidWidth_caption" xml:space="preserve">
+  <data name="FULNP_saveButton_invalidWidth_caption" xml:space="preserve">
         <value>Invalid width</value>
     </data>
-    <data name="FULNP_saveButton_invalidWidthAndHeight" xml:space="preserve">
+  <data name="FULNP_saveButton_invalidWidthAndHeight" xml:space="preserve">
         <value>Please enter a valid window width or height for the new profile. 
 If you're not sure, press the "Adapt to screen size" button</value>
     </data>
-    <data name="FULNP_saveButton_invalidWidthAndHeight_caption" xml:space="preserve">
+  <data name="FULNP_saveButton_invalidWidthAndHeight_caption" xml:space="preserve">
         <value>Window width or height missing</value>
     </data>
-    <data name="FULNP_saveButton_invalidUsername" xml:space="preserve">
+  <data name="FULNP_saveButton_invalidUsername" xml:space="preserve">
         <value>Please enter a name for the new profile</value>
     </data>
-    <data name="FULNP_saveButton_invalidUsername_caption" xml:space="preserve">
+  <data name="FULNP_saveButton_invalidUsername_caption" xml:space="preserve">
         <value>Profile name missing</value>
     </data>
-    <data name="FUL_manageProfile_deleteProfileButton_confirmation" xml:space="preserve">
+  <data name="FUL_manageProfile_deleteProfileButton_confirmation" xml:space="preserve">
         <value>Attention! Are you sure you want to delete the profile '$USERNAME$'?</value>
     </data>
-    <data name="FUL_manageProfile_deleteProfileButton_confirmation_caption" xml:space="preserve">
+  <data name="FUL_manageProfile_deleteProfileButton_confirmation_caption" xml:space="preserve">
         <value>Delete the profile '$USERNAME$'?</value>
     </data>
-    <data name="FUL_selectUserInput_profileDoesNotExist" xml:space="preserve">
+  <data name="FUL_selectUserInput_profileDoesNotExist" xml:space="preserve">
         <value>That profile does not exist. Please select a different one.</value>
     </data>
-    <data name="FUL_selectUserInput_profileDoesNotExist_caption" xml:space="preserve">
+  <data name="FUL_selectUserInput_profileDoesNotExist_caption" xml:space="preserve">
         <value>Profile doesn't exist</value>
     </data>
-    <data name="FUL_manageProfileSaveButton_profileAlreadyExists" xml:space="preserve">
+  <data name="FUL_manageProfileSaveButton_profileAlreadyExists" xml:space="preserve">
         <value>A profile with that name already exists. Please select a different one.</value>
     </data>
-    <data name="FUL_manageProfileSaveButton_profileAlreadyExists_caption" xml:space="preserve">
+  <data name="FUL_manageProfileSaveButton_profileAlreadyExists_caption" xml:space="preserve">
         <value>Profile already exists</value>
     </data>
-    <data name="FUL_manageProfileSaveButton_oldProfile_doesNotExist" xml:space="preserve">
+  <data name="FUL_manageProfileSaveButton_oldProfile_doesNotExist" xml:space="preserve">
         <value>Something went wrong! The selected profile could not be found. A new profile will be created instead.</value>
     </data>
-    <data name="FUL_manageProfileSaveButton_oldProfile_doesNotExist_caption" xml:space="preserve">
+  <data name="FUL_manageProfileSaveButton_oldProfile_doesNotExist_caption" xml:space="preserve">
         <value>Warning</value>
     </data>
-    <data name="FUL_manageProfileSaveButton_success" xml:space="preserve">
+  <data name="FUL_manageProfileSaveButton_success" xml:space="preserve">
         <value>Profile changes saved succesfully!</value>
     </data>
-    <data name="FUL_manageProfileSaveButton_success_caption" xml:space="preserve">
+  <data name="FUL_manageProfileSaveButton_success_caption" xml:space="preserve">
         <value>Success</value>
     </data>
-    <data name="FULW_flyffModelViewerMenuItem" xml:space="preserve">
+  <data name="FULW_flyffModelViewerMenuItem" xml:space="preserve">
         <value>Flyff Model Viewer</value>
     </data>
-    <data name="FULW_frozenGameMenuItem" xml:space="preserve">
+  <data name="FULW_frozenGameMenuItem" xml:space="preserve">
         <value>Refresh client</value>
     </data>
-    <data name="FULW_HideMenuMenuItem" xml:space="preserve">
+  <data name="FULW_HideMenuMenuItem" xml:space="preserve">
         <value>Hide menu</value>
     </data>
-    <data name="FUL_profileSettingsLabel" xml:space="preserve">
+  <data name="FUL_profileSettingsLabel" xml:space="preserve">
         <value>Profile Settings</value>
     </data>
-    <data name="FUL_manageProfilesLabel" xml:space="preserve">
+  <data name="FUL_manageProfilesLabel" xml:space="preserve">
         <value>Manage Profiles</value>
     </data>
-    <data name="FUL_selectUserLabel" xml:space="preserve">
+  <data name="FUL_selectUserLabel" xml:space="preserve">
         <value>Select a profile or create a new one:</value>
     </data>
-    <data name="FUL_playButton" xml:space="preserve">
+  <data name="FUL_playButton" xml:space="preserve">
         <value>Play</value>
     </data>
-    <data name="FUL_createNewProfileButton" xml:space="preserve">
+  <data name="FUL_createNewProfileButton" xml:space="preserve">
         <value>Create new Profile</value>
     </data>
-    <data name="FUL_language_label" xml:space="preserve">
+  <data name="FUL_language_label" xml:space="preserve">
         <value>Launcher language</value>
     </data>
-    <data name="FUL_credit_label" xml:space="preserve">
+  <data name="FUL_credit_label" xml:space="preserve">
         <value>Made by Tsadriu
-Powered by Microsoft WebView2</value>
+Powered by Avalonia UI</value>
     </data>
-    <data name="FUL_manageProfiles_selectProfileToModifyLabel" xml:space="preserve">
+  <data name="FUL_manageProfiles_selectProfileToModifyLabel" xml:space="preserve">
         <value>Select the profile to modify:</value>
     </data>
-    <data name="FUL_manageProfiles_profileNameLabel" xml:space="preserve">
+  <data name="FUL_manageProfiles_profileNameLabel" xml:space="preserve">
         <value>Profile name</value>
     </data>
-    <data name="FUL_manageProfiles_preferredWidthLabel" xml:space="preserve">
+  <data name="FUL_manageProfiles_preferredWidthLabel" xml:space="preserve">
         <value>Preferred width</value>
     </data>
-    <data name="FUL_manageProfiles_preferredHeightLabel" xml:space="preserve">
+  <data name="FUL_manageProfiles_preferredHeightLabel" xml:space="preserve">
         <value>Preferred height</value>
     </data>
-    <data name="FUL_manageProfiles_fullscreenLabel" xml:space="preserve">
+  <data name="FUL_manageProfiles_fullscreenLabel" xml:space="preserve">
         <value>Fullscreen?</value>
     </data>
-    <data name="FUL_manageProfiles_adaptToScreenSizeButton" xml:space="preserve">
+  <data name="FUL_manageProfiles_adaptToScreenSizeButton" xml:space="preserve">
         <value>Adapt to screen size</value>
     </data>
-    <data name="FUL_manageProfiles_saveChangesButton" xml:space="preserve">
+  <data name="FUL_manageProfiles_saveChangesButton" xml:space="preserve">
         <value>Save changes</value>
     </data>
-    <data name="FUL_manageProfiles_deleteProfileButton" xml:space="preserve">
+  <data name="FUL_manageProfiles_deleteProfileButton" xml:space="preserve">
         <value>Delete this profile</value>
     </data>
-    <data name="FUL_manageProfiles_deleteAllProfilesButton" xml:space="preserve">
+  <data name="FUL_manageProfiles_deleteAllProfilesButton" xml:space="preserve">
         <value>Delete all profiles</value>
     </data>
-    <data name="FULNP_preferredWidthLabel_tooltip" xml:space="preserve">
+  <data name="FULNP_preferredWidthLabel_tooltip" xml:space="preserve">
         <value>The width of the program when the profile is launched.</value>
     </data>
-    <data name="FULNP_preferredHeightLabel_tooltip" xml:space="preserve">
+  <data name="FULNP_preferredHeightLabel_tooltip" xml:space="preserve">
         <value>The height of the program when the profile is launched.</value>
     </data>
-    <data name="FULNP_fullscreenLabel_tooltip" xml:space="preserve">
+  <data name="FULNP_fullscreenLabel_tooltip" xml:space="preserve">
         <value>If it's checked, when the profile is launched, the window will be at fullscreen</value>
     </data>
-    <data name="FULNP_adaptScreenSize_tooltip" xml:space="preserve">
+  <data name="FULNP_adaptScreenSize_tooltip" xml:space="preserve">
         <value>Not sure about the width and/or height of your screen?
 Press this button and it will automatically adapt to your screen</value>
     </data>
-    <data name="FULNP_saveButton" xml:space="preserve">
+  <data name="FULNP_saveButton" xml:space="preserve">
         <value>Create profile</value>
     </data>
-    <data name="FUL_launcherPropertiesJson_error" xml:space="preserve">
+  <data name="FUL_launcherPropertiesJson_error" xml:space="preserve">
         <value>Something went wrong while loading the launcher properties. A log file has been generated in $LOCATION$, please contact the developer and send the file.</value>
     </data>
-    <data name="FUL_launcherPropertiesJson_error_caption" xml:space="preserve">
+  <data name="FUL_launcherPropertiesJson_error_caption" xml:space="preserve">
         <value>Launcher settings error</value>
     </data>
-    <data name="FUL_manageProfile_deleteAllProfilesButton_confirmation" xml:space="preserve">
+  <data name="FUL_manageProfile_deleteAllProfilesButton_confirmation" xml:space="preserve">
         <value>Attention! Are you sure you want to delete all profiles?</value>
     </data>
-    <data name="FUL_manageProfile_deleteAllProfilesButton_confirmation_caption" xml:space="preserve">
+  <data name="FUL_manageProfile_deleteAllProfilesButton_confirmation_caption" xml:space="preserve">
         <value>Delete all profiles?</value>
     </data>
 </root>

@@ -1,4 +1,4 @@
-﻿<root>
+<root>
     <resheader name="resmimetype">
         <value>text/microsoft-resx</value>
     </resheader>
@@ -72,7 +72,7 @@ Wenn Sie sich nicht sicher sind, klicken Sie auf die Schaltfläche „An Bildsch
     </data>
     <data name="FUL_credit_label" xml:space="preserve">
         <value>Entwickelt von Tsadriu
-Angetrieben von Microsoft WebView2</value>
+Angetrieben von Avalonia UI</value>
     </data>
     <data name="FUL_language_label" xml:space="preserve">
         <value>Sprache des Launchers</value>

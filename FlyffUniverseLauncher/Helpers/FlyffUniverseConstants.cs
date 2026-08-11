@@ -13,7 +13,12 @@ public abstract class FlyffUniverseConstants
     /// </summary>
     public abstract class Directory
     {
-        public static readonly string CurrentDirectory = Path.GetPathRoot(Environment.CurrentDirectory) ?? System.IO.Directory.GetCurrentDirectory();
+        // On Windows the data is kept at the root of the drive (like the previous versions of the launcher did),
+        // so already existing profiles are not lost. On macOS and Linux the root is not writable,
+        // so the data goes to the user's local application data folder instead.
+        public static readonly string CurrentDirectory = OperatingSystem.IsWindows()
+            ? Path.GetPathRoot(Environment.CurrentDirectory) ?? System.IO.Directory.GetCurrentDirectory()
+            : Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
         public static readonly string ProgramStorage = Path.Combine(CurrentDirectory, "Flyff Universe Launcher");
         public static readonly string LogStorage = Path.Combine(ProgramStorage, "Logs");
         public static readonly string ProgramNetworkStorage = Path.Combine(ProgramStorage, "Network Data");

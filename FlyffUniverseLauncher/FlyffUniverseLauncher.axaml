@@ -1,0 +1,98 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="FlyffUniverseLauncher.FlyffUniverseLauncher"
+        Title="Flyff Universe Launcher - "
+        Width="420" Height="540"
+        CanResize="False"
+        WindowStartupLocation="CenterScreen"
+        Icon="/Assets/Icons/program.ico">
+
+    <!-- The Fluent theme uses very big tab headers by default, these styles bring them back
+         to a size similar to the old launcher. -->
+    <Window.Styles>
+        <Style Selector="TabItem">
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="MinHeight" Value="36" />
+            <Setter Property="Padding" Value="10,4" />
+        </Style>
+    </Window.Styles>
+
+    <!-- The panel is slightly transparent so the random background image of the launcher stays visible. -->
+    <Border Margin="24" Background="#E6FFFFFF" CornerRadius="6" Padding="8">
+        <TabControl x:Name="launcherTabControl">
+
+            <TabItem x:Name="profileSettingsTab" Header="Profile Settings">
+                <DockPanel Margin="8">
+                    <!-- Language selection + credits are docked at the bottom of the tab. -->
+                    <StackPanel DockPanel.Dock="Bottom" Spacing="4">
+                        <TextBlock x:Name="ful_language_label" Text="Launcher language" />
+                        <ComboBox x:Name="ful_language_comboBox" Width="150" HorizontalAlignment="Left"
+                                  SelectionChanged="ful__Language_ComboBox_SelectedIndexChanged">
+                            <ComboBoxItem Content="English" />
+                            <ComboBoxItem Content="Italiano" />
+                            <ComboBoxItem Content="Deutsch" />
+                        </ComboBox>
+                        <TextBlock x:Name="ful_credit_label" FontStyle="Italic" FontSize="12" Margin="0,12,0,0"
+                                   Text="Made by Tsadriu" />
+                    </StackPanel>
+
+                    <StackPanel Spacing="8">
+                        <TextBlock x:Name="selectUserLabel" Text="Select a profile or type a new one:" />
+                        <AutoCompleteBox x:Name="selectUserInput" FilterMode="Contains" MinimumPrefixLength="0"
+                                         SelectionChanged="selectUserInput_SelectedIndexChanged"
+                                         TextChanged="selectUserInput_TextChanged" />
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <Button x:Name="playButton" Content="Launch profile" MinWidth="130"
+                                    Click="playButton_Click" />
+                            <Button x:Name="createNewProfileButton" Content="Create new profile" MinWidth="130"
+                                    Click="createNewProfileButton_Click" />
+                        </StackPanel>
+                    </StackPanel>
+                </DockPanel>
+            </TabItem>
+
+            <TabItem x:Name="manageProfilesTab" Header="Manage Profiles">
+                <StackPanel Margin="8" Spacing="6">
+                    <TextBlock x:Name="selectProfileToModifyLabel" Text="Select the profile to modify:" />
+                    <AutoCompleteBox x:Name="manageProfileComboBox" FilterMode="Contains" MinimumPrefixLength="0"
+                                     SelectionChanged="manageProfileComboBox_SelectedIndexChanged" />
+
+                    <TextBlock x:Name="manageProfiles_profileNameLabel" Text="Profile name" Margin="0,6,0,0" />
+                    <TextBox x:Name="manageProfileNameTextBox" />
+
+                    <!-- Preferred width and height sit next to each other, like in the old launcher. -->
+                    <Grid ColumnDefinitions="*,12,*" Margin="0,6,0,0">
+                        <StackPanel Grid.Column="0" Spacing="4">
+                            <TextBlock x:Name="manageProfiles_preferredWidthLabel" Text="Preferred width" />
+                            <TextBox x:Name="manageProfileWidthTextBox" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="2" Spacing="4">
+                            <TextBlock x:Name="manageProfiles_preferredHeightLabel" Text="Preffered height" />
+                            <TextBox x:Name="manageProfileHeightTextBox" />
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid ColumnDefinitions="*,12,*" Margin="0,6,0,0">
+                        <CheckBox x:Name="manageProfileFullscreenCheckBox" Grid.Column="0" Content="Fullscreen?" />
+                        <Button x:Name="manageProfileAdaptToScreenSize" Grid.Column="2" Content="Adapt to screen size"
+                                HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
+                                Click="manageProfileAdaptToScreenSize_Click" />
+                    </Grid>
+
+                    <Button x:Name="manageProfileSaveButton" Content="Save changes" Width="180" Margin="0,10,0,0"
+                            HorizontalAlignment="Center" HorizontalContentAlignment="Center"
+                            Click="manageProfileSaveButton_Click" />
+                    <Button x:Name="manageProfileDeleteButton" Content="Delete this profile" Width="180"
+                            HorizontalAlignment="Center" HorizontalContentAlignment="Center"
+                            Click="manageProfileDeleteButton_Click" />
+                    <Button x:Name="manageProfileDeleteAllButton" Content="Delete all profiles" Width="180"
+                            HorizontalAlignment="Center" HorizontalContentAlignment="Center"
+                            Background="Brown" Foreground="White" FontWeight="Bold"
+                            Click="manageProfileDeleteAllButton_Click" />
+                </StackPanel>
+            </TabItem>
+
+        </TabControl>
+    </Border>
+
+</Window>

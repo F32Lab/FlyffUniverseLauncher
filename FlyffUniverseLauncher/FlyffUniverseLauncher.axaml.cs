@@ -1,6 +1,11 @@
 using System.Globalization;
 using System.Text.Json;
 using System.Text.RegularExpressions;
+using Avalonia.Controls;
+using Avalonia.Interactivity;
+using Avalonia.Media;
+using Avalonia.Media.Imaging;
+using Avalonia.Platform;
 using FlyffUniverseLauncher.Helpers;
 using TsadriuUtilities;
 using TsadriuUtilities.Csv;
@@ -12,7 +17,7 @@ using FlyffUniverseLauncher.Properties;
 
 namespace FlyffUniverseLauncher
 {
-    public sealed partial class FlyffUniverseLauncher : Form
+    public sealed partial class FlyffUniverseLauncher : Window
     {
         private static ICsvTable _profilesTable = new CsvTable();
         private const string ProfileColumn = "Profile";
@@ -29,7 +34,7 @@ namespace FlyffUniverseLauncher
             InitializeComponent();
             PickRandomImage();
             AssignUsersToComboBox();
-            Text += Program.CurrentVersion;
+            Title += Program.CurrentVersion;
             ManageProfileHelpers.Setup(_profilesTable);
             LoadLauncherProperties();
         }
@@ -52,35 +57,37 @@ namespace FlyffUniverseLauncher
             selectUserInput.Text = profile.Name;
         }
 
-        private void playButton_Click(object sender, EventArgs e)
+        private async void playButton_Click(object? sender, RoutedEventArgs e)
         {
-            string currentUser = selectUserInput.Text.ToLower();
+            string currentUser = (selectUserInput.Text ?? string.Empty).ToLower();
 
             if (string.IsNullOrEmpty(currentUser))
             {
-                MessageBox.Show(Resources.FUL_playButton_no_profile_selected, Resources.FUL_playButton_no_profile_selected_caption, MessageBoxButtons.OK,
+                await MessageBox.Show(Properties.Resources.FUL_playButton_no_profile_selected, Properties.Resources.FUL_playButton_no_profile_selected_caption, MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
                 return;
             }
 
             if (!_profiles.Any(x => x.Name.Equals(currentUser, StringComparison.CurrentCultureIgnoreCase)))
             {
-                MessageBox.Show(Resources.FUL_playButton_selected_profile_does_not_exist, Resources.FUL_playButton_selected_profile_does_not_exist_caption,
+                await MessageBox.Show(Properties.Resources.FUL_playButton_selected_profile_does_not_exist, Properties.Resources.FUL_playButton_selected_profile_does_not_exist_caption,
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             var flyff = new FlyffUniverseWindow(_selectedProfile);
-            _ = flyff.LaunchGame();
+            flyff.LaunchGame();
         }
 
-        private void selectUserInput_SelectedIndexChanged(object sender, EventArgs e)
+        private async void selectUserInput_SelectedIndexChanged(object? sender, SelectionChangedEventArgs e)
         {
-            Profile? profileToSearch = _profiles.Find(x => x.Name.Equals(selectUserInput.Text, StringComparison.CurrentCultureIgnoreCase));
+            // During the selection event the Text property may not be updated yet, so the selected item is preferred.
+            var selectedUser = selectUserInput.SelectedItem?.ToString() ?? selectUserInput.Text ?? string.Empty;
+            Profile? profileToSearch = _profiles.Find(x => x.Name.Equals(selectedUser, StringComparison.CurrentCultureIgnoreCase));
 
             if (profileToSearch == null)
             {
-                MessageBox.Show(Resources.FUL_selectUserInput_profileDoesNotExist, Resources.FUL_selectUserInput_profileDoesNotExist_caption, MessageBoxButtons.OK,
+                await MessageBox.Show(Properties.Resources.FUL_selectUserInput_profileDoesNotExist, Properties.Resources.FUL_selectUserInput_profileDoesNotExist_caption, MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
                 _selectedProfile = null!;
                 selectUserInput.Text = string.Empty;
@@ -90,9 +97,9 @@ namespace FlyffUniverseLauncher
             _selectedProfile = profileToSearch;
         }
 
-        private void selectUserInput_TextChanged(object sender, EventArgs e)
+        private async void selectUserInput_TextChanged(object? sender, TextChangedEventArgs e)
         {
-            if (GetProfileIndex(selectUserInput.Text) == -1)
+            if (GetProfileIndex(selectUserInput.Text ?? string.Empty) == -1)
             {
                 return;
             }
@@ -101,7 +108,7 @@ namespace FlyffUniverseLauncher
 
             if (profileToSearch == null)
             {
-                MessageBox.Show(Resources.FUL_selectUserInput_profileDoesNotExist, Resources.FUL_profileSettingsLabel, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                await MessageBox.Show(Properties.Resources.FUL_selectUserInput_profileDoesNotExist, Properties.Resources.FUL_profileSettingsLabel, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 _selectedProfile = null!;
                 selectUserInput.Text = string.Empty;
             }
@@ -109,59 +116,61 @@ namespace FlyffUniverseLauncher
 
         private void PickRandomImage()
         {
-            var listOfImages = new List<Bitmap>
+            var listOfImages = new List<string>
             {
-                Resources.img0,
-                Resources.img1,
-                Resources.img2,
-                Resources.img3,
-                Resources.img4,
-                Resources.img5,
-                Resources.img6,
-                Resources.img7,
-                Resources.img8,
-                Resources.img9,
-                Resources.img10,
-                Resources.img11,
+                "img0",
+                "img1",
+                "img2",
+                "img3",
+                "img4",
+                "img5",
+                "img6",
+                "img7",
+                "img8",
+                "img9",
+                "img10",
+                "img11",
             };
 
             var random = new Random();
             var randomNumber = random.Next(0, listOfImages.Count - 1);
 
-            BackgroundImage = listOfImages[randomNumber];
+            // The images are shipped as Avalonia assets, so they can be loaded the same way on every platform.
+            var imageUri = new Uri($"avares://FlyffUniverseLauncher/Assets/Images/{listOfImages[randomNumber]}.jpg");
+            Background = new ImageBrush(new Bitmap(AssetLoader.Open(imageUri))) { Stretch = Stretch.UniformToFill };
         }
 
-        private void manageProfileSaveButton_Click(object sender, EventArgs e)
+        private async void manageProfileSaveButton_Click(object? sender, RoutedEventArgs e)
         {
-            int userIndex = GetProfileIndex(manageProfileComboBox.Text);
+            int userIndex = GetProfileIndex(manageProfileComboBox.Text ?? string.Empty);
 
             if (userIndex == -1)
             {
-                MessageBox.Show(Resources.FUL_selectUserInput_profileDoesNotExist, Resources.FUL_selectUserInput_profileDoesNotExist_caption, MessageBoxButtons.OK,
+                await MessageBox.Show(Properties.Resources.FUL_selectUserInput_profileDoesNotExist, Properties.Resources.FUL_selectUserInput_profileDoesNotExist_caption, MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
                 return;
             }
 
-            var doesNewUsernameExist = ManageProfileHelpers.DoesProfileToOverrideExist(manageProfileNameTextBox.Text);
-            var areProfileNamesEqual = ManageProfileHelpers.AreProfileNamesEqual(manageProfileComboBox.Text, manageProfileNameTextBox.Text);
+            var doesNewUsernameExist = ManageProfileHelpers.DoesProfileToOverrideExist(manageProfileNameTextBox.Text ?? string.Empty);
+            var areProfileNamesEqual = ManageProfileHelpers.AreProfileNamesEqual(manageProfileComboBox.Text ?? string.Empty, manageProfileNameTextBox.Text ?? string.Empty);
 
             if (doesNewUsernameExist && !areProfileNamesEqual)
             {
-                MessageBox.Show(Resources.FUL_manageProfileSaveButton_profileAlreadyExists, Resources.FUL_manageProfileSaveButton_profileAlreadyExists_caption,
+                await MessageBox.Show(Properties.Resources.FUL_manageProfileSaveButton_profileAlreadyExists, Properties.Resources.FUL_manageProfileSaveButton_profileAlreadyExists_caption,
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
                 return;
             }
 
-            var oldProfileName = Regex.Replace(manageProfileComboBox.Text, @"[^\w\d]", string.Empty);
-            var newProfileName = Regex.Replace(manageProfileNameTextBox.Text.ToLower(), @"[^\w\d]", string.Empty);
+            var oldProfileName = Regex.Replace(manageProfileComboBox.Text ?? string.Empty, @"[^\w\d]", string.Empty);
+            var newProfileName = Regex.Replace((manageProfileNameTextBox.Text ?? string.Empty).ToLower(), @"[^\w\d]", string.Empty);
 
             var oldDirectory = Path.Combine(FlyffUniverseConstants.Directory.ProgramNetworkStorage, oldProfileName);
             var newDirectory = Path.Combine(FlyffUniverseConstants.Directory.ProgramNetworkStorage, newProfileName);
 
             if (!Directory.Exists(oldDirectory))
             {
-                MessageBox.Show(Resources.FUL_manageProfileSaveButton_oldProfile_doesNotExist, Resources.FUL_manageProfileSaveButton_oldProfile_doesNotExist_caption,
+                await MessageBox.Show(Properties.Resources.FUL_manageProfileSaveButton_oldProfile_doesNotExist, Properties.Resources.FUL_manageProfileSaveButton_oldProfile_doesNotExist_caption,
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
                 Directory.CreateDirectory(newDirectory);
@@ -177,16 +186,16 @@ namespace FlyffUniverseLauncher
             _profilesTable[ProfileColumn].RowList[userIndex] = newProfileName;
             _profilesTable[PreferredWidthColumn].RowList[userIndex] = manageProfileWidthTextBox.Text;
             _profilesTable[PreferredHeightColumn].RowList[userIndex] = manageProfileHeightTextBox.Text;
-            _profilesTable[IsFullScreenColumn].RowList[userIndex] = manageProfileFullscreenCheckBox.Checked ? "1" : "0";
+            _profilesTable[IsFullScreenColumn].RowList[userIndex] = manageProfileFullscreenCheckBox.IsChecked == true ? "1" : "0";
 
             File.WriteAllLines(FlyffUniverseConstants.Directory.ProfilesFile, _profilesTable.ToList());
 
             var newProfile = new Profile()
             {
                 Name = newProfileName,
-                Width = manageProfileWidthTextBox.Text.ToInt(),
-                Height = manageProfileHeightTextBox.Text.ToInt(),
-                IsFullScreen = manageProfileFullscreenCheckBox.Checked,
+                Width = (manageProfileWidthTextBox.Text ?? string.Empty).ToInt(),
+                Height = (manageProfileHeightTextBox.Text ?? string.Empty).ToInt(),
+                IsFullScreen = manageProfileFullscreenCheckBox.IsChecked == true,
             };
 
             AssignUsersToComboBox();
@@ -194,15 +203,17 @@ namespace FlyffUniverseLauncher
             selectUserInput.Text = newProfile.Name;
             ResetManageProfileFields();
 
-            MessageBox.Show(Resources.FUL_manageProfileSaveButton_success, Resources.FUL_manageProfileSaveButton_success_caption, MessageBoxButtons.OK,
+            await MessageBox.Show(Properties.Resources.FUL_manageProfileSaveButton_success, Properties.Resources.FUL_manageProfileSaveButton_success_caption, MessageBoxButtons.OK,
                 MessageBoxIcon.Information);
             // Go back to the launcher tab
-            launcherTabControl.SelectedTab = launcherTabControl.TabPages[0];
+            launcherTabControl.SelectedIndex = 0;
         }
 
-        private void manageProfileComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        private void manageProfileComboBox_SelectedIndexChanged(object? sender, SelectionChangedEventArgs e)
         {
-            int userIndex = GetProfileIndex(manageProfileComboBox.Text);
+            // During the selection event the Text property may not be updated yet, so the selected item is preferred.
+            var selectedUser = manageProfileComboBox.SelectedItem?.ToString() ?? manageProfileComboBox.Text ?? string.Empty;
+            int userIndex = GetProfileIndex(selectedUser);
 
             if (userIndex == -1)
             {
@@ -212,12 +223,12 @@ namespace FlyffUniverseLauncher
             manageProfileNameTextBox.Text = _profilesTable[ProfileColumn].RowList[userIndex]?.ToLower();
             manageProfileWidthTextBox.Text = _profilesTable[PreferredWidthColumn].RowList[userIndex];
             manageProfileHeightTextBox.Text = _profilesTable[PreferredHeightColumn].RowList[userIndex];
-            manageProfileFullscreenCheckBox.Checked = _profilesTable[IsFullScreenColumn].RowList[userIndex] == "1";
+            manageProfileFullscreenCheckBox.IsChecked = _profilesTable[IsFullScreenColumn].RowList[userIndex] == "1";
         }
 
-        private void manageProfileDeleteButton_Click(object sender, EventArgs e)
+        private async void manageProfileDeleteButton_Click(object? sender, RoutedEventArgs e)
         {
-            string manageProfileSelectedUser = manageProfileComboBox.Text;
+            string manageProfileSelectedUser = manageProfileComboBox.Text ?? string.Empty;
 
             if (string.IsNullOrEmpty(manageProfileSelectedUser))
             {
@@ -231,10 +242,10 @@ namespace FlyffUniverseLauncher
                 return;
             }
 
-            var message = Resources.FUL_manageProfile_deleteProfileButton_confirmation.Replace("$USERNAME$", manageProfileSelectedUser);
-            var caption = Resources.FUL_manageProfile_deleteProfileButton_confirmation_caption.Replace("$USERNAME$", manageProfileSelectedUser);
+            var message = Properties.Resources.FUL_manageProfile_deleteProfileButton_confirmation.Replace("$USERNAME$", manageProfileSelectedUser);
+            var caption = Properties.Resources.FUL_manageProfile_deleteProfileButton_confirmation_caption.Replace("$USERNAME$", manageProfileSelectedUser);
 
-            DialogResult result = MessageBox.Show(message, caption, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult result = await MessageBox.Show(message, caption, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (result == DialogResult.No)
             {
@@ -253,15 +264,15 @@ namespace FlyffUniverseLauncher
             AssignUsersToComboBox();
         }
 
-        private void manageProfileDeleteAllButton_Click(object sender, EventArgs e)
+        private async void manageProfileDeleteAllButton_Click(object? sender, RoutedEventArgs e)
         {
             if (_profilesTable[ProfileColumn].ContainsEmptyRows)
             {
                 return;
             }
 
-            DialogResult result = MessageBox.Show(Resources.FUL_manageProfile_deleteAllProfilesButton_confirmation,
-                Resources.FUL_manageProfile_deleteAllProfilesButton_confirmation_caption, MessageBoxButtons.YesNo,
+            DialogResult result = await MessageBox.Show(Properties.Resources.FUL_manageProfile_deleteAllProfilesButton_confirmation,
+                Properties.Resources.FUL_manageProfile_deleteAllProfilesButton_confirmation_caption, MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question);
 
             if (result == DialogResult.No)
@@ -295,27 +306,35 @@ namespace FlyffUniverseLauncher
             File.WriteAllLines(FlyffUniverseConstants.Directory.ProfilesFile, _profilesTable.ToList());
             ResetManageProfileFields();
             AssignUsersToComboBox();
-            launcherTabControl.SelectedTab = launcherTabControl.TabPages[0];
+            launcherTabControl.SelectedIndex = 0;
         }
 
-        private void manageProfileAdaptToScreenSize_Click(object sender, EventArgs e)
+        private void manageProfileAdaptToScreenSize_Click(object? sender, RoutedEventArgs e)
         {
-            string manageProfileSelectedUser = manageProfileComboBox.Text;
+            string manageProfileSelectedUser = manageProfileComboBox.Text ?? string.Empty;
 
             if (string.IsNullOrEmpty(manageProfileSelectedUser))
             {
                 return;
             }
 
-            manageProfileWidthTextBox.Text = Screen.FromControl(this).Bounds.Width.ToString();
-            manageProfileHeightTextBox.Text = Screen.FromControl(this).Bounds.Height.ToString();
+            // The screen can be null when the window is not visible on any screen yet.
+            var screen = Screens.ScreenFromWindow(this);
+
+            if (screen == null)
+            {
+                return;
+            }
+
+            manageProfileWidthTextBox.Text = screen.Bounds.Width.ToString();
+            manageProfileHeightTextBox.Text = screen.Bounds.Height.ToString();
         }
 
         /// <summary>
         /// Resets the fields related to profile management to their default state.
         /// </summary>
         /// <remarks>
-        /// This method clears the text boxes for profile name, profile width, profile height, 
+        /// This method clears the text boxes for profile name, profile width, profile height,
         /// and unchecks the fullscreen checkbox in the profile management section of the Flyff Universe Launcher.
         /// </remarks>
         private void ResetManageProfileFields()
@@ -324,7 +343,7 @@ namespace FlyffUniverseLauncher
             manageProfileNameTextBox.Text = string.Empty;
             manageProfileWidthTextBox.Text = string.Empty;
             manageProfileHeightTextBox.Text = string.Empty;
-            manageProfileFullscreenCheckBox.Checked = false;
+            manageProfileFullscreenCheckBox.IsChecked = false;
         }
 
         /// <summary>
@@ -347,12 +366,12 @@ namespace FlyffUniverseLauncher
         }
 
         /// <summary>
-        /// Initializes and assigns user profiles to the ComboBox controls. 
-        /// If the old profiles file exists, it converts the data to a new format, deletes the old file, and creates a new profiles file. 
+        /// Initializes and assigns user profiles to the ComboBox controls.
+        /// If the old profiles file exists, it converts the data to a new format, deletes the old file, and creates a new profiles file.
         /// If no profile data is found, it creates a new profiles table with default columns.
         /// </summary>
         /// <remarks>
-        /// The method ensures that the profiles directory exists and checks if there is any setup data available in the old or new profiles files. 
+        /// The method ensures that the profiles directory exists and checks if there is any setup data available in the old or new profiles files.
         /// If old data is present in the old profiles file, it is converted and saved in the new profiles file format.
         /// After setting up the profiles table, the <see cref="ReloadComboBoxes"/> method is called to reload the ComboBoxes with the updated profiles.
         /// </remarks>
@@ -416,8 +435,7 @@ namespace FlyffUniverseLauncher
         /// </summary>
         public void ReloadComboBoxes()
         {
-            selectUserInput.Items.Clear();
-            manageProfileComboBox.Items.Clear();
+            var profileNames = new List<string>();
 
             foreach (string? profile in _profilesTable[ProfileColumn].RowList.Where(profile => !string.IsNullOrEmpty(profile)))
             {
@@ -426,24 +444,27 @@ namespace FlyffUniverseLauncher
                     continue;
                 }
 
-                selectUserInput.Items.Add(profile);
-                manageProfileComboBox.Items.Add(profile);
+                profileNames.Add(profile);
             }
+
+            selectUserInput.ItemsSource = profileNames;
+            manageProfileComboBox.ItemsSource = profileNames;
         }
 
         /// <summary>
         /// Handles the click event of the createNewProfileButton.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        private void createNewProfileButton_Click(object sender, EventArgs e)
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
+        private void createNewProfileButton_Click(object? sender, RoutedEventArgs e)
         {
             _ = new FlyffUniverseNewProfile();
         }
 
-        private void ful__Language_ComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        private void ful__Language_ComboBox_SelectedIndexChanged(object? sender, SelectionChangedEventArgs e)
         {
-            var selectedCulture = ful_language_comboBox.SelectedItem?.ToString() switch
+            var selectedLanguage = (ful_language_comboBox.SelectedItem as ComboBoxItem)?.Content?.ToString();
+            var selectedCulture = selectedLanguage switch
             {
                 "English" => FlyffUniverseConstants.Language.English,
                 "Italiano" => FlyffUniverseConstants.Language.Italian,
@@ -451,7 +472,7 @@ namespace FlyffUniverseLauncher
                 _ => FlyffUniverseConstants.Language.English,
             };
 
-            Resources.Culture = CultureInfo.GetCultureInfoByIetfLanguageTag(selectedCulture);
+            Properties.Resources.Culture = CultureInfo.GetCultureInfoByIetfLanguageTag(selectedCulture);
             UpdateAllLabelsLanguage();
             UpdateLauncherLanguageProperties(selectedCulture);
         }
@@ -459,24 +480,24 @@ namespace FlyffUniverseLauncher
         private void UpdateAllLabelsLanguage()
         {
             // Profile Settings tab
-            profileSettingsTab.Text = Resources.FUL_profileSettingsLabel;
-            manageProfilesTab.Text = Resources.FUL_manageProfilesLabel;
-            selectUserLabel.Text = Resources.FUL_selectUserLabel;
-            playButton.Text = Resources.FUL_playButton;
-            createNewProfileButton.Text = Resources.FUL_createNewProfileButton;
-            ful_language_label.Text = Resources.FUL_language_label;
-            ful_credit_label.Text = Resources.FUL_credit_label;
+            profileSettingsTab.Header = Properties.Resources.FUL_profileSettingsLabel;
+            manageProfilesTab.Header = Properties.Resources.FUL_manageProfilesLabel;
+            selectUserLabel.Text = Properties.Resources.FUL_selectUserLabel;
+            playButton.Content = Properties.Resources.FUL_playButton;
+            createNewProfileButton.Content = Properties.Resources.FUL_createNewProfileButton;
+            ful_language_label.Text = Properties.Resources.FUL_language_label;
+            ful_credit_label.Text = Properties.Resources.FUL_credit_label;
 
             // Manage Profiles tab
-            selectProfileToModifyLabel.Text = Resources.FUL_manageProfiles_selectProfileToModifyLabel;
-            manageProfiles_profileNameLabel.Text = Resources.FUL_manageProfiles_profileNameLabel;
-            manageProfiles_preferredWidthLabel.Text = Resources.FUL_manageProfiles_preferredWidthLabel;
-            manageProfiles_preferredHeightLabel.Text = Resources.FUL_manageProfiles_preferredHeightLabel;
-            manageProfileFullscreenCheckBox.Text = Resources.FUL_manageProfiles_fullscreenLabel;
-            manageProfileAdaptToScreenSize.Text = Resources.FUL_manageProfiles_adaptToScreenSizeButton;
-            manageProfileSaveButton.Text = Resources.FUL_manageProfiles_saveChangesButton;
-            manageProfileDeleteButton.Text = Resources.FUL_manageProfiles_deleteProfileButton;
-            manageProfileDeleteAllButton.Text = Resources.FUL_manageProfiles_deleteAllProfilesButton;
+            selectProfileToModifyLabel.Text = Properties.Resources.FUL_manageProfiles_selectProfileToModifyLabel;
+            manageProfiles_profileNameLabel.Text = Properties.Resources.FUL_manageProfiles_profileNameLabel;
+            manageProfiles_preferredWidthLabel.Text = Properties.Resources.FUL_manageProfiles_preferredWidthLabel;
+            manageProfiles_preferredHeightLabel.Text = Properties.Resources.FUL_manageProfiles_preferredHeightLabel;
+            manageProfileFullscreenCheckBox.Content = Properties.Resources.FUL_manageProfiles_fullscreenLabel;
+            manageProfileAdaptToScreenSize.Content = Properties.Resources.FUL_manageProfiles_adaptToScreenSizeButton;
+            manageProfileSaveButton.Content = Properties.Resources.FUL_manageProfiles_saveChangesButton;
+            manageProfileDeleteButton.Content = Properties.Resources.FUL_manageProfiles_deleteProfileButton;
+            manageProfileDeleteAllButton.Content = Properties.Resources.FUL_manageProfiles_deleteAllProfilesButton;
         }
 
         private void LoadLauncherProperties()
@@ -498,9 +519,9 @@ namespace FlyffUniverseLauncher
                 catch (Exception exception)
                 {
                     string fileName = $"{DateTime.Now:yyyy_MM_dd_HH_mm_ss}_launcher_error.log";
-                    string description = Resources.FUL_launcherPropertiesJson_error.Replace("$LOCATION$",
+                    string description = Properties.Resources.FUL_launcherPropertiesJson_error.Replace("$LOCATION$",
                         Path.Combine(FlyffUniverseConstants.Directory.LogStorage, FlyffUniverseConstants.Directory.LauncherFile));
-                    MessageBox.Show(description, Resources.FUL_launcherPropertiesJson_error_caption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    _ = MessageBox.Show(description, Properties.Resources.FUL_launcherPropertiesJson_error_caption, MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                     string errorMessage = "Could not deserialize the JSON launcher properties! File content: " + fileContent + " - Exception: " + exception;
                     File.WriteAllText(Path.Combine(FlyffUniverseConstants.Directory.LogStorage, fileName), errorMessage);
@@ -548,9 +569,9 @@ namespace FlyffUniverseLauncher
                 catch (Exception exception)
                 {
                     string fileName = $"{DateTime.Now:yyyy_MM_dd_HH_mm_ss}_update_launcher_error.log";
-                    string description = Resources.FUL_launcherPropertiesJson_error.Replace("$LOCATION$",
+                    string description = Properties.Resources.FUL_launcherPropertiesJson_error.Replace("$LOCATION$",
                         Path.Combine(FlyffUniverseConstants.Directory.LogStorage, FlyffUniverseConstants.Directory.LauncherFile));
-                    MessageBox.Show(description, Resources.FUL_launcherPropertiesJson_error_caption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    _ = MessageBox.Show(description, Properties.Resources.FUL_launcherPropertiesJson_error_caption, MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                     string errorMessage = "Could not deserialize the JSON launcher properties during the update! File content: " + fileContent + " - Exception: " +
                                           exception;

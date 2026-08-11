@@ -1,0 +1,17 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="FlyffUniverseLauncher.FlyffUniverseWiki"
+        Title="Flyff Universe Helper - "
+        Width="1264" Height="681"
+        WindowStartupLocation="Manual"
+        Background="DarkGray"
+        KeyDown="FlyffUniverseWiki_KeyDown"
+        Icon="/Assets/Icons/program.ico">
+
+    <!-- The webview fills the whole window, so no manual resize handling is needed anymore. -->
+    <NativeWebView x:Name="webView2"
+                   EnvironmentRequested="webView2_EnvironmentRequested"
+                   NavigationCompleted="webView2_NavigationCompleted"
+                   WebMessageReceived="webView2_WebMessageReceived" />
+
+</Window>

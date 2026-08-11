@@ -1,9 +1,10 @@
 # Flyff Universe Launcher!
 * Uses libraries:
-  * [Microsoft WebView2](https://docs.microsoft.com/en-us/microsoft-edge/webview2/)
+  * [Avalonia UI](https://avaloniaui.net/) (with [Avalonia WebView](https://docs.avaloniaui.net/docs/app-development/embedding-web-content))
   * [TsadriuUtilities](https://github.com/Tsadriu/TsadriuUtilities)
 
 ##  Features 
+* Works on **Windows**, **macOS** and **Linux**!
 * Ability to launch and play the game with multiple profiles!
   * Each profile can be customized.
 * Pressing **F11** will enable full screen. The only way to remove the full screen is to press it again.
@@ -11,6 +12,15 @@
 
 ##  License
 MIT
+
+## Release 3.0
+### New Features
+* The launcher is now multiplatform! It runs on Windows, macOS and Linux.
+  * The user interface was moved from Windows Forms to [Avalonia UI](https://avaloniaui.net/).
+  * The game is displayed through the webview engine of each platform (WebView2 on Windows, WKWebView on macOS, WebKitGTK on Linux), so the launcher stays small.
+  * Every profile still keeps its own separate network data (cookies, cache, login), also on macOS and Linux.
+* On macOS and Linux the launcher data is stored in the user's local application data folder, since the root of the drive is not writable there.
+  * On Windows nothing changes, so already existing profiles keep working.
 
 ## Release 2.0
 ### New Features

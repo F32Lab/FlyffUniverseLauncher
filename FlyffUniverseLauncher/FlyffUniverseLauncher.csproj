@@ -1,26 +1,29 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup Label="Globals">
-    <WebView2EnableCsWinRTProjection>False</WebView2EnableCsWinRTProjection>
-    <WebView2UseWinRT>False</WebView2UseWinRT>
-  </PropertyGroup>
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows8.0</TargetFramework>
+    <!-- Plain net8.0 (no -windows suffix) so the launcher can also run on macOS and Linux -->
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
-    <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <ApplicationIcon>Assets\Icons\program.ico</ApplicationIcon>
-    <SupportedOSPlatformVersion>8.0</SupportedOSPlatformVersion>
+    <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <AvaloniaUseCompiledBindingsByDefault>false</AvaloniaUseCompiledBindingsByDefault>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="Assets\Icons\program.ico" />
+    <!-- Icons and images are shipped as Avalonia resources so every platform can load them -->
+    <AvaloniaResource Include="Assets\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2849.39" />
+    <PackageReference Include="Avalonia" Version="12.0.1" />
+    <PackageReference Include="Avalonia.Desktop" Version="12.0.1" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="12.0.1" />
+    <PackageReference Include="Avalonia.Fonts.Inter" Version="12.0.1" />
+    <!-- Cross-platform webview: WebView2 on Windows, WKWebView on macOS, WebKitGTK on Linux -->
+    <PackageReference Include="Avalonia.Controls.WebView" Version="12.0.1" />
     <PackageReference Include="TsadriuUtilities" Version="1.13.1" />
     <PackageReference Include="TsadriuUtilities.Csv" Version="1.7.3" />
   </ItemGroup>
@@ -37,20 +40,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Assets\Images\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Update="FlyffUniverseNewProfile.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Update="ManageProfileHelpers.cs">
-      <DependentUpon>FlyffUniverseLauncher.cs</DependentUpon>
+      <DependentUpon>FlyffUniverseLauncher.axaml.cs</DependentUpon>
     </Compile>
   </ItemGroup>
 

@@ -1,0 +1,38 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="FlyffUniverseLauncher.FlyffUniverseNewProfile"
+        Title="FlyffUniverseNewProfileWindow"
+        Width="446" Height="280"
+        CanResize="False"
+        WindowStartupLocation="Manual"
+        Icon="/Assets/Icons/program.ico">
+
+    <StackPanel Margin="24,16" Spacing="6">
+        <TextBlock x:Name="newProfileNameLabel" Text="Profile name" />
+        <TextBox x:Name="newProfileNameTextBox" />
+
+        <!-- Preferred width and height sit next to each other, like in the old launcher. -->
+        <Grid ColumnDefinitions="*,12,*" Margin="0,6,0,0">
+            <StackPanel Grid.Column="0" Spacing="4">
+                <TextBlock x:Name="newProfilePrefWidthLabel" Text="Preferred width" />
+                <TextBox x:Name="newProfilePrefWidthTextBox" />
+            </StackPanel>
+            <StackPanel Grid.Column="2" Spacing="4">
+                <TextBlock x:Name="newProfilePrefHeightLabel" Text="Preffered height" />
+                <TextBox x:Name="newProfilePrefHeightTextBox" />
+            </StackPanel>
+        </Grid>
+
+        <Grid ColumnDefinitions="*,12,*" Margin="0,6,0,0">
+            <CheckBox x:Name="newProfileFullscreenCheckBox" Grid.Column="0" Content="Fullscreen?" />
+            <Button x:Name="newProfileAdaptScreenSizeButton" Grid.Column="2" Content="Adapt to screen size"
+                    HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
+                    Click="newProfileAdaptScreenSizeButton_Click" />
+        </Grid>
+
+        <Button x:Name="newProfileSaveButton" Content="Save profile" Width="180" Margin="0,10,0,0"
+                HorizontalAlignment="Center" HorizontalContentAlignment="Center"
+                Click="newProfileSaveButton_Click" />
+    </StackPanel>
+
+</Window>
